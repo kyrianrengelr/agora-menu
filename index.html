@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Agora - Carte du Restaurant</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           CSS VARIABLES
+           ============================================ */
+        :root {
+            --color-bg: #000000;
+            --color-title: #FFFFFF;
+            --color-description: #D3D3D3;
+            --color-accent: #00B4D8;
+            --color-gold: #C59764;
+            --color-line: #333333;
+            
+            --font-title: 'Cormorant Garamond', serif;
+            --font-body: 'Jost', sans-serif;
+        }
+
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-bg);
+            color: var(--color-title);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================
+           HEADER & NAVIGATION
+           ============================================ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-line);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            max-width: 100%;
+        }
+
+        .logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* Language Selector */
+        .lang-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+            padding: 4px;
+        }
+
+        .lang-btn:hover {
+            opacity: 0.8;
+        }
+
+        .lang-btn.active {
+            opacity: 1;
+        }
+
+        /* Hamburger Menu */
+        .menu-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background-color: var(--color-title);
+            transition: all 0.3s ease;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Navigation Overlay */
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-menu {
+            list-style: none;
+            text-align: center;
+        }
+
+        .nav-menu li {
+            margin: 24px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+
+        .nav-overlay.active .nav-menu li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .nav-overlay.active .nav-menu li:nth-child(1) { transition-delay: 0.1s; }
+        .nav-overlay.active .nav-menu li:nth-child(2) { transition-delay: 0.2s; }
+        .nav-overlay.active .nav-menu li:nth-child(3) { transition-delay: 0.3s; }
+        .nav-overlay.active .nav-menu li:nth-child(4) { transition-delay: 0.4s; }
+
+        .nav-menu a {
+            font-family: var(--font-body);
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--color-title);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: color 0.3s ease;
+            padding: 8px 16px;
+            display: inline-block;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-accent);
+        }
+
+        /* ============================================
+           MAIN CONTENT
+           ============================================ */
+        .main-content {
+            padding-top: 80px;
+            padding-bottom: 60px;
+        }
+
+        /* ============================================
+           SECTIONS
+           ============================================ */
+        .menu-section {
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Main Section Title (white) */
+        .section-title {
+            font-family: var(--font-body);
+            font-size: 30px;
+            font-weight: 500;
+            color: var(--color-title);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 0;
+            position: relative;
+            display: block;
+            text-align: center;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            min-width: 100px;
+            height: 2px;
+            background-color: var(--color-accent);
+        }
+
+        /* Subsection Title (cyan) */
+        .subsection-title {
+            font-family: var(--font-body);
+            font-size: 25px;
+            font-weight: 400;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 40px;
+            margin-bottom: 24px;
+            position: relative;
+            display: block;
+            text-align: center;
+        }
+
+        /* First subsection title directly after section title */
+        .section-title + .subsection-title {
+            margin-top: 8px;
+        }
+
+        /* No underline for subsection titles */
+
+        /* Sub-subcategory Title (gold) */
+        .subcategory-title {
+            font-family: var(--font-body);
+            font-size: 25px;
+            font-weight: 500;
+            color: var(--color-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 36px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Weekly Menu Special Text */
+        .weekly-intro {
+            font-family: var(--font-title);
+            font-size: 20px;
+            font-weight: 700;
+            font-style: normal;
+            color: var(--color-gold);
+            margin-top: 8px;
+            margin-bottom: 32px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        /* ============================================
+           MENU ITEMS
+           ============================================ */
+        .menu-item {
+            margin-bottom: 28px;
+        }
+
+        .menu-item-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 6px;
+        }
+
+        .dish-name {
+            font-family: var(--font-title);
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--color-title);
+            flex-shrink: 0;
+        }
+
+        .dish-line {
+            flex-grow: 1;
+            height: 1px;
+            background: linear-gradient(to right, var(--color-line) 0%, transparent 100%);
+            margin-top: 10px;
+        }
+
+        .dish-price {
+            font-family: var(--font-title);
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--color-title);
+            flex-shrink: 0;
+        }
+
+        .dish-description {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--color-description);
+            line-height: 1.5;
+        }
+
+        /* Veggie Leaf Icon */
+        .veggie-icon {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            margin-left: 4px;
+            cursor: pointer;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+            object-fit: contain;
+        }
+
+        /* Tooltip for veggie icon */
+        .veggie-tooltip {
+            position: fixed;
+            background-color: rgba(0, 0, 0, 0.95);
+            color: #4CAF50;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .veggie-tooltip.visible {
+            opacity: 1;
+        }
+
+        /* Tags (for takeaway) */
+        .tag {
+            display: inline-block;
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 3px;
+            margin-left: 10px;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+        }
+
+        .tag-takeaway {
+            background-color: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        /* Weekly menu item prefix */
+        .weekly-item .dish-name::before {
+            content: '- ';
+        }
+
+        /* ============================================
+           SCROLL TO TOP BUTTON
+           ============================================ */
+        .scroll-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--color-line);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+        }
+
+        .scroll-top svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--color-title);
+        }
+
+        .scroll-top:hover svg {
+            fill: var(--color-bg);
+        }
+
+        /* ============================================
+           LOGO SVG in Header
+           ============================================ */
+        .logo-svg {
+            height: 36px;
+            width: auto;
+        }
+
+        .logo-svg .flag-bg {
+            fill: #D32F2F;
+        }
+
+        .logo-svg .flag-cross {
+            fill: #FFFFFF;
+        }
+
+        .logo-svg .tower {
+            fill: #FFFFFF;
+        }
+
+        .logo-svg .circle {
+            fill: #D32F2F;
+        }
+
+        .logo-svg .text {
+            fill: #FFFFFF;
+            font-family: var(--font-body);
+            font-weight: 600;
+            letter-spacing: 8px;
+        }
+
+        .logo-svg .underline {
+            fill: #D32F2F;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 10px 16px;
+            }
+
+            .menu-section {
+                padding: 32px 16px;
+            }
+
+            .section-title {
+                font-size: 25px;
+                letter-spacing: 2px;
+            }
+
+            .subsection-title {
+                font-size: 25px;
+            }
+
+            .subcategory-title {
+                font-size: 25px;
+            }
+
+            .weekly-intro {
+                font-family: var(--font-title);
+                font-size: 20px;
+                font-weight: 700;
+            }
+
+            .dish-name {
+                font-size: 20px;
+            }
+
+            .dish-price {
+                font-size: 18px;
+            }
+
+            .dish-description {
+                font-size: 14px;
+            }
+
+            .nav-menu a {
+                font-size: 18px;
+            }
+
+            .lang-btn {
+                font-size: 16px;
+            }
+        }
+
+        /* ============================================
+           SECTION DIVIDER
+           ============================================ */
+        .section-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--color-line), transparent);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <!-- Logo -->
+            <img src="Logo agora.png" alt="AGORA" class="logo">
+
+            <div class="header-right">
+                <!-- Language Selector -->
+                <div class="lang-selector">
+                    <button class="lang-btn" data-lang="fr" title="Français">🇫🇷</button>
+                    <button class="lang-btn" data-lang="de" title="Deutsch">🇩🇪</button>
+                    <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+                </div>
+
+                <!-- Hamburger Menu -->
+                <button class="menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Overlay -->
+    <nav class="nav-overlay">
+        <ul class="nav-menu">
+            <li><a href="#grecques" data-i18n="nav_grecques">Spécialités Grecques</a></li>
+            <li><a href="#regionales" data-i18n="nav_regionales">Spécialités Régionales</a></li>
+            <li><a href="#semaine" data-i18n="nav_semaine">Menus de la Semaine</a></li>
+            <li><a href="#desserts" data-i18n="nav_desserts">Desserts Maison</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- ========================================
+             SPÉCIALITÉS GRECQUES
+             ======================================== -->
+        <section id="grecques" class="menu-section">
+            <h1 class="section-title" data-i18n="title_grecques">Spécialités Grecques</h1>
+
+            <!-- ENTRÉES -->
+            <h2 class="subsection-title" data-i18n="subtitle_entrees">Entrées</h2>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name">Tzatziki</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">9</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_tzatziki">Yaourt grec au concombre râpé frais, à l'ail, à l'aneth et à l'huile d'olive, servi bien frais.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_salade_grecque_name">Salade grecque / Plat</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price dual-price">11.5 / <span class="price-main">19.5</span></span>
+                </div>
+                <p class="dish-description" data-i18n="dish_salade_grecque">Tomates fraîches, concombre croquant, oignons rouges, olives marinées, câpres et feta.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name">Tirokafteri</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">12</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_tirokafteri">Yaourt grec, feta râpée et paprika piquant.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_boulettes_courgette_name">Boulettes de courgette</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">18</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_boulettes_courgette">Courgettes et feta râpées, liées aux œufs et parfumées de menthe et d'aneth.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_assiette_mezee_name">Assiette mézée</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">24</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_assiette_mezee">Un assortiment de spécialités grecques : tzatziki, tirokafteri, tartare d'aubergine, fèves de pois chiches et pain pita.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_feta_phyllo_name">Feta en pâte phyllo</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">14</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_feta_phyllo">Nappée de miel et parsemée de sésame.</p>
+            </div>
+
+            <!-- PLATS -->
+            <h2 class="subsection-title" data-i18n="subtitle_plats">Plats</h2>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name">Moussaka</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">35</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_moussaka">Aubergines, courgettes et pommes de terre sautées, avec viande hachée de bœuf et sauce béchamel.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name">Souvlaki</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">38</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_souvlaki">Brochettes de poulet ou de porc accompagnées de légumes, avec tzatziki, salade et pain pita.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_gyros_name">Gyros (emporter / sur place)</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price dual-price">15 / <span class="price-main">28</span></span>
+                </div>
+                <p class="dish-description" data-i18n="dish_gyros">Fines tranches de poulet servies avec tzatziki, pain pita, oignons, tomates et frites.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name">Arni Païdakia</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">45</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_arni">Rack d'agneau servi avec tzatziki, salade grecque, frites dorées et pain pita.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name">Papoutsakia</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">31</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_papoutsakia">Aubergines grillées farcies aux légumes, accompagnées de riz et nappées de sauce tomate.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name">Soutzoukakia</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">34</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_soutzoukakia">Boulettes de bœuf haché épicées au cumin et à l'ail, servies avec une sauce tomate.</p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ========================================
+             SPÉCIALITÉS RÉGIONALES
+             ======================================== -->
+        <section id="regionales" class="menu-section">
+            <h1 class="section-title" data-i18n="title_regionales">Nos Spécialités Régionales</h1>
+
+            <!-- ENTRÉES -->
+            <h2 class="subsection-title" data-i18n="subtitle_entrees">Entrées</h2>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_salade_verte_name">Salade verte</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">8</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_salade_verte">Un classique tout en fraîcheur.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_salade_melee_name">Salade mêlée maison</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">9.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_salade_melee">Une assiette fraîche et colorée, préparée maison.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_soupe_oignon_name">Soupe à l'oignon gratinée</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">12</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_soupe_oignon">Une soupe chaude et savoureuse, gratinée au fromage.</p>
+            </div>
+
+            <!-- PLATS -->
+            <h2 class="subsection-title" data-i18n="subtitle_plats">Plats</h2>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name">Burger AGORA</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">25.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_burger_agora">Burger maison au bœuf haché, garni de feta, jambon cru, légumes et servi avec frites.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_cordon_bleu_name">Cordon-bleu de porc</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">34.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_cordon_bleu">Recette maison, farci au jambon et au fromage, accompagné de légumes de saison et de frites.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_poulet_curry_name">Poulet au curry</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">27</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_poulet_curry">Poulet tendre au curry doux, avec fruits frais, crème et riz.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_macaronis_name">Macaronis de l'alpage</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">25.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_macaronis">Cornettes à la crème, fromage râpé, oignons et lard, subtilement assaisonnés d'aromat et de poivre.</p>
+            </div>
+
+            <!-- VÉGÉTARIEN -->
+            <h3 class="subcategory-title" data-i18n="subtitle_vegetarien">Végétarien</h3>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_burger_veggie_name">Burger Veggie</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">25.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_burger_veggie">Burger maison à base de pois chiches, betterave rouge et lentilles.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_feuillete_name">Feuilleté aux champignons</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">26</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_feuillete">Pâté feuilleté garni de champignons, servi avec riz.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_curry_fruits_name">Curry de fruits</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">25</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_curry_fruits">Préparation douce aux fruits et curry, accompagnée de riz.</p>
+            </div>
+
+            <!-- POISSON -->
+            <h3 class="subcategory-title" data-i18n="subtitle_poisson">Poisson</h3>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_filets_sandre_name">Filets de sandre</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">35</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_filets_sandre">Filets de sandre dorés à la meunière, servis avec sauce tartare, légumes et frites.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_filets_perche_name">Filets de perche</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">39</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_filets_perche">Filets de perche meunière, accompagnés de sauce tartare, légumes et frites.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_beignets_perche_name">Beignets de perche</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">33</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_beignets_perche">Beignets de filets de perche croustillants, avec sauce tartare, légumes et frites.</p>
+            </div>
+
+            <!-- MENU ENFANTS -->
+            <h3 class="subcategory-title" data-i18n="subtitle_enfants">Menu Enfants</h3>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_frites_name">Portion de frites</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">8</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_frites">Frites dorées et croustillantes.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_pates_name">Pâtes à la sauce napolitaine</span>
+                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
+                    <span class="dish-line"></span>
+                    <span class="dish-price">10</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_pates">Pâtes servies avec une sauce tomate maison.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_nuggets_name">Nuggets de poulet</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">12</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_nuggets">Nuggets croustillants, accompagnés de frites.</p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ========================================
+             MENUS DE LA SEMAINE
+             ======================================== -->
+        <section id="semaine" class="menu-section">
+            <h1 class="section-title" data-i18n="title_semaine">Menus de la Semaine</h1>
+            <p class="weekly-intro" data-i18n="weekly_intro">Chaque jour, 1 menu au choix parmi 5 variés, avec une salade verte !<br>Le 11<sup>e</sup> menu est offert !</p>
+
+            <!-- Menus chargés dynamiquement via Google Sheets -->
+            <div id="weekly-menu-container">
+                <p id="weekly-loading" style="text-align: center; color: var(--color-description);">Chargement des menus...</p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- ========================================
+             DESSERTS MAISON
+             ======================================== -->
+        <section id="desserts" class="menu-section">
+            <h1 class="section-title" data-i18n="title_desserts">Desserts Maison</h1>
+
+            <div style="margin-top: 32px;"></div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_creme_brulee_name">Crème brûlée maison</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">9.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_creme_brulee">Préparé maison avec une texture onctueuse et une fine couche caramélisée.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_fondant_name">Fondant au chocolat</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">9.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_fondant">Servi avec une boule de glace vanille et de la chantilly.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_meringue_name">Meringue chantilly</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">11.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_meringue">Meringue croquante, accompagnée de chantilly et de deux boules de glace vanille.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_ravani_name">Ravani grec</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">11.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_ravani">Gâteau traditionnel à base de semoule, de sucre et de farine, parfumé à la vanille.</p>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-item-header">
+                    <span class="dish-name" data-i18n="dish_yaourt_miel_name">Yaourt grec au miel et aux noix</span>
+                    <span class="dish-line"></span>
+                    <span class="dish-price">7.5</span>
+                </div>
+                <p class="dish-description" data-i18n="dish_yaourt_miel">Un dessert frais et authentique, alliant douceur du miel et croquant des noix.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" aria-label="Retour en haut">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4l-8 8h5v8h6v-8h5z"/>
+        </svg>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+        // ============================================
+        // TRANSLATIONS
+        // ============================================
+        const translations = {
+            fr: {
+                // Navigation
+                nav_grecques: "Spécialités Grecques",
+                nav_regionales: "Spécialités Régionales",
+                nav_semaine: "Menus de la Semaine",
+                nav_desserts: "Desserts Maison",
+                
+                // Section Titles
+                title_grecques: "Spécialités Grecques",
+                title_regionales: "Nos Spécialités Régionales",
+                title_semaine: "Menus de la Semaine",
+                title_desserts: "Desserts Maison",
+                
+                // Subtitles
+                subtitle_entrees: "Entrées",
+                subtitle_plats: "Plats",
+                subtitle_vegetarien: "Végétarien",
+                subtitle_poisson: "Poisson",
+                subtitle_enfants: "Menu Enfants",
+                
+                // Tags
+                tag_veggie: "Veggie",
+                tag_takeaway: "À l'emporter ou sur place",
+                
+                // Weekly intro
+                weekly_intro: "Chaque jour, 1 menu au choix parmi 5 variés, avec une salade verte !<br>Le 11<sup>e</sup> menu est offert !",
+                
+                // Greek Starters
+                dish_tzatziki: "Yaourt grec au concombre râpé frais, à l'ail, à l'aneth et à l'huile d'olive, servi bien frais.",
+                dish_salade_grecque_name: "Salade grecque / Plat",
+                dish_salade_grecque: "Tomates fraîches, concombre croquant, oignons rouges, olives marinées, câpres et feta.",
+                dish_tirokafteri: "Yaourt grec, feta râpée et paprika piquant.",
+                dish_boulettes_courgette_name: "Boulettes de courgette",
+                dish_boulettes_courgette: "Courgettes et feta râpées, liées aux œufs et parfumées de menthe et d'aneth.",
+                dish_assiette_mezee_name: "Assiette mézée",
+                dish_assiette_mezee: "Un assortiment de spécialités grecques : tzatziki, tirokafteri, tartare d'aubergine, fèves de pois chiches et pain pita.",
+                dish_feta_phyllo_name: "Feta en pâte phyllo",
+                dish_feta_phyllo: "Nappée de miel et parsemée de sésame.",
+                
+                // Greek Mains
+                dish_moussaka: "Aubergines, courgettes et pommes de terre sautées, avec viande hachée de bœuf et sauce béchamel.",
+                dish_souvlaki: "Brochettes de poulet ou de porc accompagnées de légumes, avec tzatziki, salade et pain pita.",
+                dish_gyros: "Fines tranches de poulet servies avec tzatziki, pain pita, oignons, tomates et frites.",
+                dish_arni: "Rack d'agneau servi avec tzatziki, salade grecque, frites dorées et pain pita.",
+                dish_papoutsakia: "Aubergines grillées farcies aux légumes, accompagnées de riz et nappées de sauce tomate.",
+                dish_soutzoukakia: "Boulettes de bœuf haché épicées au cumin et à l'ail, servies avec une sauce tomate.",
+                
+                // Regional Starters
+                dish_salade_verte_name: "Salade verte",
+                dish_salade_verte: "Un classique tout en fraîcheur.",
+                dish_salade_melee_name: "Salade mêlée maison",
+                dish_salade_melee: "Une assiette fraîche et colorée, préparée maison.",
+                dish_soupe_oignon_name: "Soupe à l'oignon gratinée",
+                dish_soupe_oignon: "Une soupe chaude et savoureuse, gratinée au fromage.",
+                
+                // Regional Mains
+                dish_burger_agora: "Burger maison au bœuf haché, garni de feta, jambon cru, légumes et servi avec frites.",
+                dish_cordon_bleu_name: "Cordon-bleu de porc",
+                dish_cordon_bleu: "Recette maison, farci au jambon et au fromage, accompagné de légumes de saison et de frites.",
+                dish_poulet_curry_name: "Poulet au curry",
+                dish_poulet_curry: "Poulet tendre au curry doux, avec fruits frais, crème et riz.",
+                dish_macaronis_name: "Macaronis de l'alpage",
+                dish_macaronis: "Cornettes à la crème, fromage râpé, oignons et lard, subtilement assaisonnés d'aromat et de poivre.",
+                
+                // Vegetarian
+                dish_burger_veggie_name: "Burger Veggie",
+                dish_burger_veggie: "Burger maison à base de pois chiches, betterave rouge et lentilles.",
+                dish_feuillete_name: "Feuilleté aux champignons",
+                dish_feuillete: "Pâté feuilleté garni de champignons, servi avec riz.",
+                dish_curry_fruits_name: "Curry de fruits",
+                dish_curry_fruits: "Préparation douce aux fruits et curry, accompagnée de riz.",
+                
+                // Fish
+                dish_filets_sandre_name: "Filets de sandre",
+                dish_filets_sandre: "Filets de sandre dorés à la meunière, servis avec sauce tartare, légumes et frites.",
+                dish_filets_perche_name: "Filets de perche",
+                dish_filets_perche: "Filets de perche meunière, accompagnés de sauce tartare, légumes et frites.",
+                dish_beignets_perche_name: "Beignets de perche",
+                dish_beignets_perche: "Beignets de filets de perche croustillants, avec sauce tartare, légumes et frites.",
+                
+                // Kids Menu
+                dish_frites_name: "Portion de frites",
+                dish_frites: "Frites dorées et croustillantes.",
+                dish_pates_name: "Pâtes à la sauce napolitaine",
+                dish_pates: "Pâtes servies avec une sauce tomate maison.",
+                dish_nuggets_name: "Nuggets de poulet",
+                dish_nuggets: "Nuggets croustillants, accompagnés de frites.",
+                
+                // Weekly Menu
+                weekly_1_name: "Émincé de porc",
+                weekly_1_desc: "Salade ou Potage en entrée, suivie d'un émincé de porc accompagné de riz et de légumes.",
+                weekly_2_name: "Steak haché de boeuf",
+                weekly_2_desc: "Salade ou Potage en entrée, suivie d'un steak haché de boeuf, sauce Café de Paris, frites et légumes.",
+                weekly_3_name: "Cuisse de poulet",
+                weekly_3_desc: "Salade ou Potage en entrée, suivie d'une cuisse de poulet sauce au curry, accompagné de riz et de légumes.",
+                weekly_4_desc: "Salade ou Potage en entrée, sauce morille maison.",
+                weekly_5_name: "Beignets de perche",
+                weekly_5_desc: "Salade ou Potage en entrée, suivie de beignets de perche accompagnés de sauce tartare, frites et légumes.",
+                
+                // Desserts
+                dish_creme_brulee_name: "Crème brûlée maison",
+                dish_creme_brulee: "Préparé maison avec une texture onctueuse et une fine couche caramélisée.",
+                dish_fondant_name: "Fondant au chocolat",
+                dish_fondant: "Servi avec une boule de glace vanille et de la chantilly.",
+                dish_meringue_name: "Meringue chantilly",
+                dish_meringue: "Meringue croquante, accompagnée de chantilly et de deux boules de glace vanille.",
+                dish_ravani_name: "Ravani grec",
+                dish_ravani: "Gâteau traditionnel à base de semoule, de sucre et de farine, parfumé à la vanille.",
+                dish_yaourt_miel_name: "Yaourt grec au miel et aux noix",
+                dish_yaourt_miel: "Un dessert frais et authentique, alliant douceur du miel et croquant des noix."
+            },
+            
+            de: {
+                // Navigation
+                nav_grecques: "Griechische Spezialitäten",
+                nav_regionales: "Regionale Spezialitäten",
+                nav_semaine: "Wochenmenüs",
+                nav_desserts: "Hausgemachte Desserts",
+                
+                // Section Titles
+                title_grecques: "Griechische Spezialitäten",
+                title_regionales: "Unsere Regionalen Spezialitäten",
+                title_semaine: "Wochenmenüs",
+                title_desserts: "Hausgemachte Desserts",
+                
+                // Subtitles
+                subtitle_entrees: "Vorspeisen",
+                subtitle_plats: "Hauptgerichte",
+                subtitle_vegetarien: "Vegetarisch",
+                subtitle_poisson: "Fisch",
+                subtitle_enfants: "Kindermenü",
+                
+                // Tags
+                tag_veggie: "Veggie",
+                tag_takeaway: "Zum Mitnehmen oder vor Ort",
+                
+                // Weekly intro
+                weekly_intro: "Jeden Tag 1 Menü zur Auswahl aus 5 verschiedenen, mit grünem Salat — 19.90.- !<br>Das 11. Menü ist gratis!",
+                
+                // Greek Starters
+                dish_tzatziki: "Griechischer Joghurt mit frisch geraspelter Gurke, Knoblauch, Dill und Olivenöl, gut gekühlt serviert.",
+                dish_salade_grecque_name: "Griechischer Salat / Teller",
+                dish_salade_grecque: "Frische Tomaten, knackige Gurke, rote Zwiebeln, marinierte Oliven, Kapern und Feta.",
+                dish_tirokafteri: "Griechischer Joghurt, geriebener Feta und scharfer Paprika.",
+                dish_boulettes_courgette_name: "Zucchinibällchen",
+                dish_boulettes_courgette: "Geriebene Zucchini und Feta, mit Eiern gebunden und mit Minze und Dill verfeinert.",
+                dish_assiette_mezee_name: "Mezze-Teller",
+                dish_assiette_mezee: "Eine Auswahl griechischer Spezialitäten: Tzatziki, Tirokafteri, Auberginentartar, Kichererbsen und Pita-Brot.",
+                dish_feta_phyllo_name: "Feta im Filoteig",
+                dish_feta_phyllo: "Mit Honig beträufelt und mit Sesam bestreut.",
+                
+                // Greek Mains
+                dish_moussaka: "Gebratene Auberginen, Zucchini und Kartoffeln mit Rinderhackfleisch und Béchamelsauce.",
+                dish_souvlaki: "Hähnchen- oder Schweinefleischspiesse mit Gemüse, Tzatziki, Salat und Pita-Brot.",
+                dish_gyros: "Feine Hähnchenscheiben mit Tzatziki, Pita-Brot, Zwiebeln, Tomaten und Pommes frites.",
+                dish_arni: "Lammkarree mit Tzatziki, griechischem Salat, goldenen Pommes frites und Pita-Brot.",
+                dish_papoutsakia: "Gegrillte Auberginen gefüllt mit Gemüse, mit Reis und Tomatensauce.",
+                dish_soutzoukakia: "Gewürzte Rinderhackbällchen mit Kreuzkümmel und Knoblauch, serviert mit Tomatensauce.",
+                
+                // Regional Starters
+                dish_salade_verte_name: "Grüner Salat",
+                dish_salade_verte: "Ein frischer Klassiker.",
+                dish_salade_melee_name: "Gemischter Hauссalat",
+                dish_salade_melee: "Ein frischer und bunter Teller, hausgemacht zubereitet.",
+                dish_soupe_oignon_name: "Überbackene Zwiebelsuppe",
+                dish_soupe_oignon: "Eine warme und schmackhafte Suppe, mit Käse überbacken.",
+                
+                // Regional Mains
+                dish_burger_agora: "Hausgemachter Burger mit Rinderhackfleisch, Feta, rohem Schinken, Gemüse und Pommes frites.",
+                dish_cordon_bleu_name: "Schweine-Cordon-bleu",
+                dish_cordon_bleu: "Hausgemachtes Rezept, gefüllt mit Schinken und Käse, mit Saisongemüse und Pommes frites.",
+                dish_poulet_curry_name: "Hähnchen-Curry",
+                dish_poulet_curry: "Zartes Hähnchen in mildem Curry mit frischen Früchten, Sahne und Reis.",
+                dish_macaronis_name: "Älplermagronen",
+                dish_macaronis: "Hörnli mit Rahm, geriebenem Käse, Zwiebeln und Speck, fein gewürzt mit Aromat und Pfeffer.",
+                
+                // Vegetarian
+                dish_burger_veggie_name: "Veggie Burger",
+                dish_burger_veggie: "Hausgemachter Burger aus Kichererbsen, Roter Bete und Linsen.",
+                dish_feuillete_name: "Pilz-Blätterteigtasche",
+                dish_feuillete: "Blätterteig gefüllt mit Pilzen, serviert mit Reis.",
+                dish_curry_fruits_name: "Früchte-Curry",
+                dish_curry_fruits: "Milde Zubereitung mit Früchten und Curry, serviert mit Reis.",
+                
+                // Fish
+                dish_filets_sandre_name: "Zanderfilets",
+                dish_filets_sandre: "Zanderfilets Müllerin Art, serviert mit Tartarsauce, Gemüse und Pommes frites.",
+                dish_filets_perche_name: "Egli-Filets",
+                dish_filets_perche: "Egli-Filets Müllerin Art, mit Tartarsauce, Gemüse und Pommes frites.",
+                dish_beignets_perche_name: "Egli-Beignets",
+                dish_beignets_perche: "Knusprige Egli-Filet-Beignets mit Tartarsauce, Gemüse und Pommes frites.",
+                
+                // Kids Menu
+                dish_frites_name: "Portion Pommes frites",
+                dish_frites: "Goldene und knusprige Pommes frites.",
+                dish_pates_name: "Pasta mit Napolitana-Sauce",
+                dish_pates: "Pasta mit hausgemachter Tomatensauce.",
+                dish_nuggets_name: "Chicken Nuggets",
+                dish_nuggets: "Knusprige Nuggets mit Pommes frites.",
+                
+                // Weekly Menu
+                weekly_1_name: "Geschnetzeltes vom Schwein",
+                weekly_1_desc: "Salat oder Suppe als Vorspeise, gefolgt von Schweinegeschnetzeltem mit Reis und Gemüse.",
+                weekly_2_name: "Rinderhacksteak",
+                weekly_2_desc: "Salat oder Suppe als Vorspeise, gefolgt von Rinderhacksteak mit Café-de-Paris-Sauce, Pommes frites und Gemüse.",
+                weekly_3_name: "Hähnchenschenkel",
+                weekly_3_desc: "Salat oder Suppe als Vorspeise, gefolgt von Hähnchenschenkel in Currysauce mit Reis und Gemüse.",
+                weekly_4_desc: "Salat oder Suppe als Vorspeise, hausgemachte Morchelsauce.",
+                weekly_5_name: "Egli-Beignets",
+                weekly_5_desc: "Salat oder Suppe als Vorspeise, gefolgt von Egli-Beignets mit Tartarsauce, Pommes frites und Gemüse.",
+                
+                // Desserts
+                dish_creme_brulee_name: "Hausgemachte Crème brûlée",
+                dish_creme_brulee: "Hausgemacht mit cremiger Textur und feiner Karamellschicht.",
+                dish_fondant_name: "Schokoladen-Fondant",
+                dish_fondant: "Serviert mit einer Kugel Vanilleeis und Schlagsahne.",
+                dish_meringue_name: "Meringue mit Schlagsahne",
+                dish_meringue: "Knusprige Meringue mit Schlagsahne und zwei Kugeln Vanilleeis.",
+                dish_ravani_name: "Griechischer Ravani",
+                dish_ravani: "Traditioneller Kuchen aus Griess, Zucker und Mehl, mit Vanille aromatisiert.",
+                dish_yaourt_miel_name: "Griechischer Joghurt mit Honig und Nüssen",
+                dish_yaourt_miel: "Ein frisches und authentisches Dessert, das die Süsse des Honigs mit dem Knuspern der Nüsse verbindet."
+            },
+            
+            en: {
+                // Navigation
+                nav_grecques: "Greek Specialties",
+                nav_regionales: "Regional Specialties",
+                nav_semaine: "Weekly Menus",
+                nav_desserts: "Homemade Desserts",
+                
+                // Section Titles
+                title_grecques: "Greek Specialties",
+                title_regionales: "Our Regional Specialties",
+                title_semaine: "Weekly Menus",
+                title_desserts: "Homemade Desserts",
+                
+                // Subtitles
+                subtitle_entrees: "Starters",
+                subtitle_plats: "Main Courses",
+                subtitle_vegetarien: "Vegetarian",
+                subtitle_poisson: "Fish",
+                subtitle_enfants: "Kids Menu",
+                
+                // Tags
+                tag_veggie: "Veggie",
+                tag_takeaway: "Takeaway or dine-in",
+                
+                // Weekly intro
+                weekly_intro: "Every day, 1 menu to choose from 5 varieties, with a green salad — 19.90.- !<br>The 11th menu is free!",
+                
+                // Greek Starters
+                dish_tzatziki: "Greek yogurt with freshly grated cucumber, garlic, dill and olive oil, served well chilled.",
+                dish_salade_grecque_name: "Greek Salad / Main",
+                dish_salade_grecque: "Fresh tomatoes, crunchy cucumber, red onions, marinated olives, capers and feta.",
+                dish_tirokafteri: "Greek yogurt, grated feta and spicy paprika.",
+                dish_boulettes_courgette_name: "Zucchini Balls",
+                dish_boulettes_courgette: "Grated zucchini and feta, bound with eggs and flavored with mint and dill.",
+                dish_assiette_mezee_name: "Mezze Platter",
+                dish_assiette_mezee: "An assortment of Greek specialties: tzatziki, tirokafteri, eggplant tartare, chickpeas and pita bread.",
+                dish_feta_phyllo_name: "Feta in Phyllo Pastry",
+                dish_feta_phyllo: "Drizzled with honey and sprinkled with sesame.",
+                
+                // Greek Mains
+                dish_moussaka: "Sautéed eggplant, zucchini and potatoes with ground beef and béchamel sauce.",
+                dish_souvlaki: "Chicken or pork skewers with vegetables, tzatziki, salad and pita bread.",
+                dish_gyros: "Thin chicken slices served with tzatziki, pita bread, onions, tomatoes and fries.",
+                dish_arni: "Rack of lamb served with tzatziki, Greek salad, golden fries and pita bread.",
+                dish_papoutsakia: "Grilled eggplants stuffed with vegetables, served with rice and tomato sauce.",
+                dish_soutzoukakia: "Spiced beef meatballs with cumin and garlic, served with tomato sauce.",
+                
+                // Regional Starters
+                dish_salade_verte_name: "Green Salad",
+                dish_salade_verte: "A refreshing classic.",
+                dish_salade_melee_name: "Mixed House Salad",
+                dish_salade_melee: "A fresh and colorful plate, homemade.",
+                dish_soupe_oignon_name: "French Onion Soup",
+                dish_soupe_oignon: "A warm and savory soup, gratinated with cheese.",
+                
+                // Regional Mains
+                dish_burger_agora: "Homemade burger with ground beef, feta, cured ham, vegetables and fries.",
+                dish_cordon_bleu_name: "Pork Cordon Bleu",
+                dish_cordon_bleu: "Homemade recipe, stuffed with ham and cheese, served with seasonal vegetables and fries.",
+                dish_poulet_curry_name: "Chicken Curry",
+                dish_poulet_curry: "Tender chicken in mild curry with fresh fruits, cream and rice.",
+                dish_macaronis_name: "Alpine Macaroni",
+                dish_macaronis: "Pasta with cream, grated cheese, onions and bacon, subtly seasoned with aromat and pepper.",
+                
+                // Vegetarian
+                dish_burger_veggie_name: "Veggie Burger",
+                dish_burger_veggie: "Homemade burger made with chickpeas, beetroot and lentils.",
+                dish_feuillete_name: "Mushroom Puff Pastry",
+                dish_feuillete: "Puff pastry filled with mushrooms, served with rice.",
+                dish_curry_fruits_name: "Fruit Curry",
+                dish_curry_fruits: "Mild preparation with fruits and curry, served with rice.",
+                
+                // Fish
+                dish_filets_sandre_name: "Pike-perch Fillets",
+                dish_filets_sandre: "Golden pike-perch fillets meunière, served with tartar sauce, vegetables and fries.",
+                dish_filets_perche_name: "Perch Fillets",
+                dish_filets_perche: "Perch fillets meunière, with tartar sauce, vegetables and fries.",
+                dish_beignets_perche_name: "Perch Fritters",
+                dish_beignets_perche: "Crispy perch fillet fritters with tartar sauce, vegetables and fries.",
+                
+                // Kids Menu
+                dish_frites_name: "French Fries",
+                dish_frites: "Golden and crispy fries.",
+                dish_pates_name: "Pasta with Napolitana Sauce",
+                dish_pates: "Pasta served with homemade tomato sauce.",
+                dish_nuggets_name: "Chicken Nuggets",
+                dish_nuggets: "Crispy nuggets served with fries.",
+                
+                // Weekly Menu
+                weekly_1_name: "Sliced Pork",
+                weekly_1_desc: "Salad or soup as starter, followed by sliced pork with rice and vegetables.",
+                weekly_2_name: "Beef Steak",
+                weekly_2_desc: "Salad or soup as starter, followed by beef steak with Café de Paris sauce, fries and vegetables.",
+                weekly_3_name: "Chicken Leg",
+                weekly_3_desc: "Salad or soup as starter, followed by chicken leg in curry sauce with rice and vegetables.",
+                weekly_4_desc: "Salad or soup as starter, homemade morel sauce.",
+                weekly_5_name: "Perch Fritters",
+                weekly_5_desc: "Salad or soup as starter, followed by perch fritters with tartar sauce, fries and vegetables.",
+                
+                // Desserts
+                dish_creme_brulee_name: "Homemade Crème Brûlée",
+                dish_creme_brulee: "Homemade with a smooth texture and a fine caramelized layer.",
+                dish_fondant_name: "Chocolate Fondant",
+                dish_fondant: "Served with a scoop of vanilla ice cream and whipped cream.",
+                dish_meringue_name: "Meringue with Cream",
+                dish_meringue: "Crunchy meringue with whipped cream and two scoops of vanilla ice cream.",
+                dish_ravani_name: "Greek Ravani",
+                dish_ravani: "Traditional cake made with semolina, sugar and flour, flavored with vanilla.",
+                dish_yaourt_miel_name: "Greek Yogurt with Honey and Nuts",
+                dish_yaourt_miel: "A fresh and authentic dessert, combining the sweetness of honey with the crunch of nuts."
+            }
+        };
+
+        // ============================================
+        // LANGUAGE DETECTION & SWITCHING
+        // ============================================
+        let currentLang = 'fr';
+
+        function detectLanguage() {
+            const browserLang = navigator.language || navigator.userLanguage;
+            const lang = browserLang.substring(0, 2).toLowerCase();
+            
+            if (translations[lang]) {
+                return lang;
+            }
+            return 'fr'; // Default to French
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Update all translatable elements
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Store preference
+            localStorage.setItem('preferred-language', lang);
+        }
+
+        // ============================================
+        // NAVIGATION
+        // ============================================
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navOverlay = document.querySelector('.nav-overlay');
+        const navLinks = document.querySelectorAll('.nav-menu a');
+
+        function toggleMenu() {
+            menuToggle.classList.toggle('active');
+            navOverlay.classList.toggle('active');
+            document.body.style.overflow = navOverlay.classList.contains('active') ? 'hidden' : '';
+        }
+
+        function closeMenu() {
+            menuToggle.classList.remove('active');
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                closeMenu();
+                
+                setTimeout(() => {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 300);
+            });
+        });
+
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && navOverlay.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+
+        // ============================================
+        // SCROLL TO TOP BUTTON
+        // ============================================
+        const scrollTopBtn = document.querySelector('.scroll-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // ============================================
+        // LANGUAGE BUTTON EVENTS
+        // ============================================
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                setLanguage(lang);
+            });
+        });
+
+        // ============================================
+        // GOOGLE SHEETS - WEEKLY MENU
+        // ============================================
+        // IMPORTANT: Remplacer cette URL par l'URL de votre Google Sheet publié en CSV ############################################################################################ MODIFIÉ########################################################################################
+        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=0&single=true&output=csv';
+
+        async function loadWeeklyMenus() {
+            const container = document.getElementById('weekly-menu-container');
+
+            try {
+                // Ajout de '&t=' + Date.now() pour forcer la mise à jour et éviter le cache
+                const cacheBusterUrl = GOOGLE_SHEET_CSV_URL + '&t=' + Date.now();
+                
+                const response = await fetch(cacheBusterUrl);
+                if (!response.ok) throw new Error('Erreur de chargement');
+
+                const csvText = await response.text();
+                
+                // On met à jour la variable globale pour le changement de langue
+                weeklyMenusData = parseCSV(csvText);
+
+                if (weeklyMenusData.length === 0) {
+                    throw new Error('Aucun menu trouvé');
+                }
+
+                renderWeeklyMenus(weeklyMenusData);
+
+            } catch (error) {
+                console.error('Erreur chargement menus:', error);
+                // Afficher les menus par défaut en cas d'erreur
+                container.innerHTML = getDefaultMenusHTML();
+            }
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 2) return [];
+
+            const menus = [];
+            // Skip header row (index 0)
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length >= 7 && values[0].trim()) {
+                    menus.push({
+                        name_fr: values[0].trim(),
+                        desc_fr: values[1].trim(),
+                        name_de: values[2].trim(),
+                        desc_de: values[3].trim(),
+                        name_en: values[4].trim(),
+                        desc_en: values[5].trim(),
+                        price: values[6].trim()
+                    });
+                }
+            }
+            return menus;
+        }
+
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current);
+            return result;
+        }
+
+        function renderWeeklyMenus(menus) {
+            const container = document.getElementById('weekly-menu-container');
+            const lang = currentLang;
+
+            let html = '';
+            menus.forEach(menu => {
+                const name = lang === 'de' ? menu.name_de : (lang === 'en' ? menu.name_en : menu.name_fr);
+                const desc = lang === 'de' ? menu.desc_de : (lang === 'en' ? menu.desc_en : menu.desc_fr);
+
+                html += `
+                    <div class="menu-item weekly-item">
+                        <div class="menu-item-header">
+                            <span class="dish-name">${name || menu.name_fr}</span>
+                            <span class="dish-line"></span>
+                            <span class="dish-price">${menu.price}</span>
+                        </div>
+                        <p class="dish-description">${desc || menu.desc_fr}</p>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function getDefaultMenusHTML() {
+            // Menus par défaut si Google Sheets n'est pas accessible
+            const defaultMenus = [
+                { name: 'Émincé de porc', desc: 'Salade ou Potage en entrée, suivi d\'un émincé de porc avec riz et légumes.', price: '19.90' },
+                { name: 'Steak haché de boeuf', desc: 'Salade ou Potage en entrée, suivi d\'un steak haché, sauce Café de Paris, frites et légumes.', price: '19.90' },
+                { name: 'Cuisse de poulet', desc: 'Salade ou Potage en entrée, suivi d\'une cuisse de poulet sauce curry avec riz et légumes.', price: '19.90' },
+                { name: 'Spaghetti', desc: 'Salade ou Potage en entrée, sauce morille maison.', price: '19.90' },
+                { name: 'Beignets de perche', desc: 'Salade ou Potage en entrée, suivi de beignets de perche avec sauce tartare, frites et légumes.', price: '19.90' }
+            ];
+
+            return defaultMenus.map(menu => `
+                <div class="menu-item weekly-item">
+                    <div class="menu-item-header">
+                        <span class="dish-name">${menu.name}</span>
+                        <span class="dish-line"></span>
+                        <span class="dish-price">${menu.price}</span>
+                    </div>
+                    <p class="dish-description">${menu.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        // Store menus data globally for language switching
+        let weeklyMenusData = null;
+
+        // ============================================
+        // VEGGIE ICON TOOLTIP
+        // ============================================
+        let veggieTooltip = null;
+
+        function createVeggieTooltip() {
+            veggieTooltip = document.createElement('div');
+            veggieTooltip.className = 'veggie-tooltip';
+            veggieTooltip.textContent = 'Plat végétarien';
+            document.body.appendChild(veggieTooltip);
+        }
+
+        function showVeggieTooltip(e) {
+            const icon = e.target;
+            const rect = icon.getBoundingClientRect();
+
+            veggieTooltip.style.left = rect.left + (rect.width / 2) - (veggieTooltip.offsetWidth / 2) + 'px';
+            veggieTooltip.style.top = rect.top - veggieTooltip.offsetHeight - 8 + 'px';
+            veggieTooltip.classList.add('visible');
+
+            // Hide after 2 seconds
+            setTimeout(() => {
+                veggieTooltip.classList.remove('visible');
+            }, 2000);
+        }
+
+        function setupVeggieIcons() {
+            createVeggieTooltip();
+            const veggieIcons = document.querySelectorAll('.veggie-icon');
+            veggieIcons.forEach(icon => {
+                icon.addEventListener('click', showVeggieTooltip);
+            });
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check for stored preference first, then detect
+            const storedLang = localStorage.getItem('preferred-language');
+            const initialLang = storedLang || detectLanguage();
+            setLanguage(initialLang);
+
+            // Setup veggie icons
+            setupVeggieIcons();
+
+            // Load weekly menus from Google Sheets
+            await loadWeeklyMenusWithCache();
+        });
+
+        // Load menus and cache them
+        async function loadWeeklyMenusWithCache() {
+            const container = document.getElementById('weekly-menu-container');
+
+            try {
+                const response = await fetch(GOOGLE_SHEET_CSV_URL);
+                if (!response.ok) throw new Error('Erreur de chargement');
+
+                const csvText = await response.text();
+                weeklyMenusData = parseCSV(csvText);
+
+                if (weeklyMenusData.length === 0) {
+                    throw new Error('Aucun menu trouvé');
+                }
+
+                renderWeeklyMenus(weeklyMenusData);
+
+            } catch (error) {
+                console.error('Erreur chargement menus:', error);
+                container.innerHTML = getDefaultMenusHTML();
+            }
+        }
+
+        // Override setLanguage to also update weekly menus
+        const originalSetLanguage = setLanguage;
+        setLanguage = function(lang) {
+            originalSetLanguage(lang);
+            // Re-render weekly menus in new language if data is loaded
+            if (weeklyMenusData && weeklyMenusData.length > 0) {
+                renderWeeklyMenus(weeklyMenusData);
+            }
+        };
+    </script>
+
+</body>
+</html>
