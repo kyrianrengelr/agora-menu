@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Agora - Carte du Restaurant</title>
-    
+
+    <!-- Anti-cache: force les navigateurs à toujours charger la dernière version -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -580,125 +585,9 @@
         <section id="grecques" class="menu-section">
             <h1 class="section-title" data-i18n="title_grecques">Spécialités Grecques</h1>
 
-            <!-- ENTRÉES -->
-            <h2 class="subsection-title" data-i18n="subtitle_entrees">Entrées</h2>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name">Tzatziki</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">9</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_tzatziki">Yaourt grec au concombre râpé frais, à l'ail, à l'aneth et à l'huile d'olive, servi bien frais.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_salade_grecque_name">Salade grecque / Plat</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price dual-price">11.5 / <span class="price-main">19.5</span></span>
-                </div>
-                <p class="dish-description" data-i18n="dish_salade_grecque">Tomates fraîches, concombre croquant, oignons rouges, olives marinées, câpres et feta.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name">Tirokafteri</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">12</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_tirokafteri">Yaourt grec, feta râpée et paprika piquant.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_boulettes_courgette_name">Boulettes de courgette</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">18</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_boulettes_courgette">Courgettes et feta râpées, liées aux œufs et parfumées de menthe et d'aneth.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_assiette_mezee_name">Assiette mézée</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">24</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_assiette_mezee">Un assortiment de spécialités grecques : tzatziki, tirokafteri, tartare d'aubergine, fèves de pois chiches et pain pita.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_feta_phyllo_name">Feta en pâte phyllo</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">14</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_feta_phyllo">Nappée de miel et parsemée de sésame.</p>
-            </div>
-
-            <!-- PLATS -->
-            <h2 class="subsection-title" data-i18n="subtitle_plats">Plats</h2>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name">Moussaka</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">35</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_moussaka">Aubergines, courgettes et pommes de terre sautées, avec viande hachée de bœuf et sauce béchamel.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name">Souvlaki</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">38</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_souvlaki">Brochettes de poulet ou de porc accompagnées de légumes, avec tzatziki, salade et pain pita.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_gyros_name">Gyros (emporter / sur place)</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price dual-price">15 / <span class="price-main">28</span></span>
-                </div>
-                <p class="dish-description" data-i18n="dish_gyros">Fines tranches de poulet servies avec tzatziki, pain pita, oignons, tomates et frites.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name">Arni Païdakia</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">45</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_arni">Rack d'agneau servi avec tzatziki, salade grecque, frites dorées et pain pita.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name">Papoutsakia</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">31</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_papoutsakia">Aubergines grillées farcies aux légumes, accompagnées de riz et nappées de sauce tomate.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name">Soutzoukakia</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">34</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_soutzoukakia">Boulettes de bœuf haché épicées au cumin et à l'ail, servies avec une sauce tomate.</p>
+            <!-- Contenu chargé dynamiquement -->
+            <div id="grecques-container">
+                <p style="text-align: center; color: var(--color-description);">Chargement...</p>
             </div>
         </section>
 
@@ -710,171 +599,9 @@
         <section id="regionales" class="menu-section">
             <h1 class="section-title" data-i18n="title_regionales">Nos Spécialités Régionales</h1>
 
-            <!-- ENTRÉES -->
-            <h2 class="subsection-title" data-i18n="subtitle_entrees">Entrées</h2>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_salade_verte_name">Salade verte</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">8</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_salade_verte">Un classique tout en fraîcheur.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_salade_melee_name">Salade mêlée maison</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">9.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_salade_melee">Une assiette fraîche et colorée, préparée maison.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_soupe_oignon_name">Soupe à l'oignon gratinée</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">12</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_soupe_oignon">Une soupe chaude et savoureuse, gratinée au fromage.</p>
-            </div>
-
-            <!-- PLATS -->
-            <h2 class="subsection-title" data-i18n="subtitle_plats">Plats</h2>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name">Burger AGORA</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">25.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_burger_agora">Burger maison au bœuf haché, garni de feta, jambon cru, légumes et servi avec frites.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_cordon_bleu_name">Cordon-bleu de porc</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">34.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_cordon_bleu">Recette maison, farci au jambon et au fromage, accompagné de légumes de saison et de frites.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_poulet_curry_name">Poulet au curry</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">27</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_poulet_curry">Poulet tendre au curry doux, avec fruits frais, crème et riz.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_macaronis_name">Macaronis de l'alpage</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">25.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_macaronis">Cornettes à la crème, fromage râpé, oignons et lard, subtilement assaisonnés d'aromat et de poivre.</p>
-            </div>
-
-            <!-- VÉGÉTARIEN -->
-            <h3 class="subcategory-title" data-i18n="subtitle_vegetarien">Végétarien</h3>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_burger_veggie_name">Burger Veggie</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">25.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_burger_veggie">Burger maison à base de pois chiches, betterave rouge et lentilles.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_feuillete_name">Feuilleté aux champignons</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">26</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_feuillete">Pâté feuilleté garni de champignons, servi avec riz.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_curry_fruits_name">Curry de fruits</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">25</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_curry_fruits">Préparation douce aux fruits et curry, accompagnée de riz.</p>
-            </div>
-
-            <!-- POISSON -->
-            <h3 class="subcategory-title" data-i18n="subtitle_poisson">Poisson</h3>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_filets_sandre_name">Filets de sandre</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">35</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_filets_sandre">Filets de sandre dorés à la meunière, servis avec sauce tartare, légumes et frites.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_filets_perche_name">Filets de perche</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">39</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_filets_perche">Filets de perche meunière, accompagnés de sauce tartare, légumes et frites.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_beignets_perche_name">Beignets de perche</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">33</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_beignets_perche">Beignets de filets de perche croustillants, avec sauce tartare, légumes et frites.</p>
-            </div>
-
-            <!-- MENU ENFANTS -->
-            <h3 class="subcategory-title" data-i18n="subtitle_enfants">Menu Enfants</h3>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_frites_name">Portion de frites</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">8</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_frites">Frites dorées et croustillantes.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_pates_name">Pâtes à la sauce napolitaine</span>
-                    <img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">
-                    <span class="dish-line"></span>
-                    <span class="dish-price">10</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_pates">Pâtes servies avec une sauce tomate maison.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_nuggets_name">Nuggets de poulet</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">12</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_nuggets">Nuggets croustillants, accompagnés de frites.</p>
+            <!-- Contenu chargé dynamiquement -->
+            <div id="regionales-container">
+                <p style="text-align: center; color: var(--color-description);">Chargement...</p>
             </div>
         </section>
 
@@ -901,51 +628,9 @@
         <section id="desserts" class="menu-section">
             <h1 class="section-title" data-i18n="title_desserts">Desserts Maison</h1>
 
-            <div style="margin-top: 32px;"></div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_creme_brulee_name">Crème brûlée maison</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">9.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_creme_brulee">Préparé maison avec une texture onctueuse et une fine couche caramélisée.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_fondant_name">Fondant au chocolat</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">9.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_fondant">Servi avec une boule de glace vanille et de la chantilly.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_meringue_name">Meringue chantilly</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">11.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_meringue">Meringue croquante, accompagnée de chantilly et de deux boules de glace vanille.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_ravani_name">Ravani grec</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">11.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_ravani">Gâteau traditionnel à base de semoule, de sucre et de farine, parfumé à la vanille.</p>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-item-header">
-                    <span class="dish-name" data-i18n="dish_yaourt_miel_name">Yaourt grec au miel et aux noix</span>
-                    <span class="dish-line"></span>
-                    <span class="dish-price">7.5</span>
-                </div>
-                <p class="dish-description" data-i18n="dish_yaourt_miel">Un dessert frais et authentique, alliant douceur du miel et croquant des noix.</p>
+            <!-- Contenu chargé dynamiquement -->
+            <div id="desserts-container">
+                <p style="text-align: center; color: var(--color-description);">Chargement...</p>
             </div>
         </section>
 
@@ -1424,60 +1109,25 @@
         // ============================================
         // GOOGLE SHEETS - WEEKLY MENU
         // ============================================
-        // IMPORTANT: Remplacer cette URL par l'URL de votre Google Sheet publié en CSV ############################################################################################ MODIFIÉ########################################################################################
-        const GOOGLE_SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=0&single=true&output=csv';
+        // URLs des onglets Google Sheet (CSV)
+        const SHEET_URLS = {
+            menus: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=0&single=true&output=csv',
+            grecques: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=1396099787&single=true&output=csv',
+            regionales: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=974189437&single=true&output=csv',
+            desserts: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=1813335111&single=true&output=csv'
+        };
 
-        async function loadWeeklyMenus() {
-            const container = document.getElementById('weekly-menu-container');
+        // Données globales pour chaque section
+        let menuData = {
+            menus: [],
+            grecques: [],
+            regionales: [],
+            desserts: []
+        };
 
-            try {
-                // Ajout de '&t=' + Date.now() pour forcer la mise à jour et éviter le cache
-                const cacheBusterUrl = GOOGLE_SHEET_CSV_URL + '&t=' + Date.now();
-                
-                const response = await fetch(cacheBusterUrl);
-                if (!response.ok) throw new Error('Erreur de chargement');
-
-                const csvText = await response.text();
-                
-                // On met à jour la variable globale pour le changement de langue
-                weeklyMenusData = parseCSV(csvText);
-
-                if (weeklyMenusData.length === 0) {
-                    throw new Error('Aucun menu trouvé');
-                }
-
-                renderWeeklyMenus(weeklyMenusData);
-
-            } catch (error) {
-                console.error('Erreur chargement menus:', error);
-                // Afficher les menus par défaut en cas d'erreur
-                container.innerHTML = getDefaultMenusHTML();
-            }
-        }
-
-        function parseCSV(csvText) {
-            const lines = csvText.trim().split('\n');
-            if (lines.length < 2) return [];
-
-            const menus = [];
-            // Skip header row (index 0)
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
-                if (values.length >= 7 && values[0].trim()) {
-                    menus.push({
-                        name_fr: values[0].trim(),
-                        desc_fr: values[1].trim(),
-                        name_de: values[2].trim(),
-                        desc_de: values[3].trim(),
-                        name_en: values[4].trim(),
-                        desc_en: values[5].trim(),
-                        price: values[6].trim()
-                    });
-                }
-            }
-            return menus;
-        }
-
+        // ============================================
+        // FONCTIONS DE PARSING CSV
+        // ============================================
         function parseCSVLine(line) {
             const result = [];
             let current = '';
@@ -1485,7 +1135,6 @@
 
             for (let i = 0; i < line.length; i++) {
                 const char = line[i];
-
                 if (char === '"') {
                     inQuotes = !inQuotes;
                 } else if (char === ',' && !inQuotes) {
@@ -1499,54 +1148,316 @@
             return result;
         }
 
-        function renderWeeklyMenus(menus) {
+        function isTrue(value) {
+            return value && (value.toUpperCase() === 'TRUE' || value === '1' || value.toUpperCase() === 'OUI' || value.toUpperCase() === 'YES');
+        }
+
+        function normalizeType(type) {
+            if (!type) return '';
+            const t = type.trim().toLowerCase();
+            if (t === 'entrée' || t === 'entree' || t === 'entrée/plat' || t === 'entree/plat') return 'entree';
+            if (t === 'plat') return 'plat';
+            return t;
+        }
+
+        // ============================================
+        // CHARGEMENT DES DONNÉES
+        // ============================================
+        async function loadSheetData(url) {
+            const cacheBusterUrl = url + '&t=' + Date.now();
+            const response = await fetch(cacheBusterUrl);
+            if (!response.ok) throw new Error('Erreur de chargement');
+            return await response.text();
+        }
+
+        // Parser pour les Menus du jour
+        // Colonnes: Nom_FR, Prix, Actif, Végétarien, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
+        function parseMenus(csvText) {
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 2) return [];
+
+            const items = [];
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length >= 9 && values[0].trim() && isTrue(values[2])) {
+                    items.push({
+                        name_fr: values[0].trim(),
+                        price: values[1].trim(),
+                        vegetarien: isTrue(values[3]),
+                        desc_fr: values[4].trim(),
+                        name_de: values[5].trim(),
+                        desc_de: values[6].trim(),
+                        name_en: values[7].trim(),
+                        desc_en: values[8].trim()
+                    });
+                }
+            }
+            return items;
+        }
+
+        // Parser pour les Grecques
+        // Colonnes: Nom_FR, Prix, Actif, Type, Végétarien, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
+        function parseGrecques(csvText) {
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 2) return [];
+
+            const items = [];
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length >= 10 && values[0].trim() && isTrue(values[2])) {
+                    items.push({
+                        name_fr: values[0].trim(),
+                        price: values[1].trim(),
+                        type: normalizeType(values[3]),
+                        vegetarien: isTrue(values[4]),
+                        desc_fr: values[5].trim(),
+                        name_de: values[6].trim(),
+                        desc_de: values[7].trim(),
+                        name_en: values[8].trim(),
+                        desc_en: values[9].trim()
+                    });
+                }
+            }
+            return items;
+        }
+
+        // Parser pour les Régionales
+        // Colonnes: Nom_FR, Prix, Actif, Type, Végétarien, Présenter tout en haut des plats régionales, Poisson, Menu enfants, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
+        function parseRegionales(csvText) {
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 2) return [];
+
+            const items = [];
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length >= 13 && values[0].trim() && isTrue(values[2])) {
+                    items.push({
+                        name_fr: values[0].trim(),
+                        price: values[1].trim(),
+                        type: normalizeType(values[3]),
+                        vegetarien: isTrue(values[4]),
+                        vide: isTrue(values[5]),
+                        poisson: isTrue(values[6]),
+                        menuEnfants: isTrue(values[7]),
+                        desc_fr: values[8].trim(),
+                        name_de: values[9].trim(),
+                        desc_de: values[10].trim(),
+                        name_en: values[11].trim(),
+                        desc_en: values[12].trim()
+                    });
+                }
+            }
+            return items;
+        }
+
+        // Parser pour les Desserts
+        // Colonnes: Nom_FR, Prix, Actif, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
+        function parseDesserts(csvText) {
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 2) return [];
+
+            const items = [];
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length >= 8 && values[0].trim() && isTrue(values[2])) {
+                    items.push({
+                        name_fr: values[0].trim(),
+                        price: values[1].trim(),
+                        desc_fr: values[3].trim(),
+                        name_de: values[4].trim(),
+                        desc_de: values[5].trim(),
+                        name_en: values[6].trim(),
+                        desc_en: values[7].trim()
+                    });
+                }
+            }
+            return items;
+        }
+
+        // ============================================
+        // FONCTIONS DE RENDU HTML
+        // ============================================
+        function getItemName(item) {
+            if (currentLang === 'de' && item.name_de) return item.name_de;
+            if (currentLang === 'en' && item.name_en) return item.name_en;
+            return item.name_fr;
+        }
+
+        function getItemDesc(item) {
+            if (currentLang === 'de' && item.desc_de) return item.desc_de;
+            if (currentLang === 'en' && item.desc_en) return item.desc_en;
+            return item.desc_fr;
+        }
+
+        function renderMenuItem(item, isWeekly = false) {
+            const name = getItemName(item);
+            const desc = getItemDesc(item);
+            const veggieIcon = item.vegetarien ? '<img src="Veggie.png" alt="Végétarien" class="veggie-icon" title="Plat végétarien">' : '';
+
+            return `
+                <div class="menu-item${isWeekly ? ' weekly-item' : ''}">
+                    <div class="menu-item-header">
+                        <span class="dish-name">${name}</span>
+                        ${veggieIcon}
+                        <span class="dish-line"></span>
+                        <span class="dish-price">${item.price}</span>
+                    </div>
+                    <p class="dish-description">${desc}</p>
+                </div>
+            `;
+        }
+
+        // Rendu des Menus du jour
+        function renderMenus() {
             const container = document.getElementById('weekly-menu-container');
-            const lang = currentLang;
+            if (!menuData.menus || menuData.menus.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun menu disponible</p>';
+                return;
+            }
 
             let html = '';
-            menus.forEach(menu => {
-                const name = lang === 'de' ? menu.name_de : (lang === 'en' ? menu.name_en : menu.name_fr);
-                const desc = lang === 'de' ? menu.desc_de : (lang === 'en' ? menu.desc_en : menu.desc_fr);
+            menuData.menus.forEach(item => {
+                html += renderMenuItem(item, true);
+            });
+            container.innerHTML = html;
+        }
 
-                html += `
-                    <div class="menu-item weekly-item">
-                        <div class="menu-item-header">
-                            <span class="dish-name">${name || menu.name_fr}</span>
-                            <span class="dish-line"></span>
-                            <span class="dish-price">${menu.price}</span>
-                        </div>
-                        <p class="dish-description">${desc || menu.desc_fr}</p>
-                    </div>
-                `;
+        // Rendu des Grecques
+        function renderGrecques() {
+            const container = document.getElementById('grecques-container');
+            if (!menuData.grecques || menuData.grecques.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun plat disponible</p>';
+                return;
+            }
+
+            const entrees = menuData.grecques.filter(item => item.type === 'entree');
+            const plats = menuData.grecques.filter(item => item.type === 'plat');
+
+            let html = '';
+
+            // Entrées
+            html += `<h2 class="subsection-title" data-i18n="subtitle_entrees">${translations[currentLang].subtitle_entrees}</h2>`;
+            entrees.forEach(item => {
+                html += renderMenuItem(item);
+            });
+
+            // Plats
+            html += `<h2 class="subsection-title" data-i18n="subtitle_plats">${translations[currentLang].subtitle_plats}</h2>`;
+            plats.forEach(item => {
+                html += renderMenuItem(item);
             });
 
             container.innerHTML = html;
         }
 
-        function getDefaultMenusHTML() {
-            // Menus par défaut si Google Sheets n'est pas accessible
-            const defaultMenus = [
-                { name: 'Émincé de porc', desc: 'Salade ou Potage en entrée, suivi d\'un émincé de porc avec riz et légumes.', price: '19.90' },
-                { name: 'Steak haché de boeuf', desc: 'Salade ou Potage en entrée, suivi d\'un steak haché, sauce Café de Paris, frites et légumes.', price: '19.90' },
-                { name: 'Cuisse de poulet', desc: 'Salade ou Potage en entrée, suivi d\'une cuisse de poulet sauce curry avec riz et légumes.', price: '19.90' },
-                { name: 'Spaghetti', desc: 'Salade ou Potage en entrée, sauce morille maison.', price: '19.90' },
-                { name: 'Beignets de perche', desc: 'Salade ou Potage en entrée, suivi de beignets de perche avec sauce tartare, frites et légumes.', price: '19.90' }
-            ];
+        // Rendu des Régionales
+        function renderRegionales() {
+            const container = document.getElementById('regionales-container');
+            if (!menuData.regionales || menuData.regionales.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun plat disponible</p>';
+                return;
+            }
 
-            return defaultMenus.map(menu => `
-                <div class="menu-item weekly-item">
-                    <div class="menu-item-header">
-                        <span class="dish-name">${menu.name}</span>
-                        <span class="dish-line"></span>
-                        <span class="dish-price">${menu.price}</span>
-                    </div>
-                    <p class="dish-description">${menu.desc}</p>
-                </div>
-            `).join('');
+            // Séparer entrées et plats
+            const entrees = menuData.regionales.filter(item => item.type === 'entree');
+            const plats = menuData.regionales.filter(item => item.type === 'plat');
+
+            // Pour les plats, séparer par sous-catégorie
+            // Ordre: Vide (en haut), Végétarien, Poisson, Menu enfants
+            const platsVide = plats.filter(item => item.vide && !item.vegetarien && !item.poisson && !item.menuEnfants);
+            const platsVegetarien = plats.filter(item => item.vegetarien && !item.poisson);
+            const platsPoisson = plats.filter(item => item.poisson);
+            const platsEnfants = plats.filter(item => item.menuEnfants && !item.vegetarien && !item.poisson && !item.vide);
+
+            let html = '';
+
+            // Entrées (peuvent être végétariennes ou non)
+            html += `<h2 class="subsection-title" data-i18n="subtitle_entrees">${translations[currentLang].subtitle_entrees}</h2>`;
+            entrees.forEach(item => {
+                html += renderMenuItem(item);
+            });
+
+            // Plats
+            html += `<h2 class="subsection-title" data-i18n="subtitle_plats">${translations[currentLang].subtitle_plats}</h2>`;
+
+            // Plats "Vide" (tout en haut, sans sous-catégorie)
+            platsVide.forEach(item => {
+                html += renderMenuItem(item);
+            });
+
+            // Végétarien
+            if (platsVegetarien.length > 0) {
+                html += `<h3 class="subcategory-title" data-i18n="subtitle_vegetarien">${translations[currentLang].subtitle_vegetarien}</h3>`;
+                platsVegetarien.forEach(item => {
+                    html += renderMenuItem(item);
+                });
+            }
+
+            // Poisson
+            if (platsPoisson.length > 0) {
+                html += `<h3 class="subcategory-title" data-i18n="subtitle_poisson">${translations[currentLang].subtitle_poisson}</h3>`;
+                platsPoisson.forEach(item => {
+                    html += renderMenuItem(item);
+                });
+            }
+
+            // Menu Enfants
+            if (platsEnfants.length > 0) {
+                html += `<h3 class="subcategory-title" data-i18n="subtitle_enfants">${translations[currentLang].subtitle_enfants}</h3>`;
+                platsEnfants.forEach(item => {
+                    html += renderMenuItem(item);
+                });
+            }
+
+            container.innerHTML = html;
         }
 
-        // Store menus data globally for language switching
-        let weeklyMenusData = null;
+        // Rendu des Desserts
+        function renderDesserts() {
+            const container = document.getElementById('desserts-container');
+            if (!menuData.desserts || menuData.desserts.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun dessert disponible</p>';
+                return;
+            }
+
+            let html = '<div style="margin-top: 32px;"></div>';
+            menuData.desserts.forEach(item => {
+                html += renderMenuItem(item);
+            });
+            container.innerHTML = html;
+        }
+
+        // Rendu de toutes les sections
+        function renderAllSections() {
+            renderMenus();
+            renderGrecques();
+            renderRegionales();
+            renderDesserts();
+            // Réinitialiser les icônes veggie après le rendu
+            setupVeggieIcons();
+        }
+
+        // Charger toutes les données
+        async function loadAllData() {
+            try {
+                const [menusCSV, grecquesCSV, regionalesCSV, dessertsCSV] = await Promise.all([
+                    loadSheetData(SHEET_URLS.menus),
+                    loadSheetData(SHEET_URLS.grecques),
+                    loadSheetData(SHEET_URLS.regionales),
+                    loadSheetData(SHEET_URLS.desserts)
+                ]);
+
+                menuData.menus = parseMenus(menusCSV);
+                menuData.grecques = parseGrecques(grecquesCSV);
+                menuData.regionales = parseRegionales(regionalesCSV);
+                menuData.desserts = parseDesserts(dessertsCSV);
+
+                renderAllSections();
+
+            } catch (error) {
+                console.error('Erreur lors du chargement des données:', error);
+            }
+        }
 
         // ============================================
         // VEGGIE ICON TOOLTIP
@@ -1575,9 +1486,10 @@
         }
 
         function setupVeggieIcons() {
-            createVeggieTooltip();
             const veggieIcons = document.querySelectorAll('.veggie-icon');
             veggieIcons.forEach(icon => {
+                // Remove any existing listener to avoid duplicates
+                icon.removeEventListener('click', showVeggieTooltip);
                 icon.addEventListener('click', showVeggieTooltip);
             });
         }
@@ -1591,43 +1503,20 @@
             const initialLang = storedLang || detectLanguage();
             setLanguage(initialLang);
 
-            // Setup veggie icons
-            setupVeggieIcons();
+            // Setup veggie tooltip (icons will be set up after loading)
+            createVeggieTooltip();
 
-            // Load weekly menus from Google Sheets
-            await loadWeeklyMenusWithCache();
+            // Load all data from Google Sheets
+            await loadAllData();
         });
 
-        // Load menus and cache them
-        async function loadWeeklyMenusWithCache() {
-            const container = document.getElementById('weekly-menu-container');
-
-            try {
-                const response = await fetch(GOOGLE_SHEET_CSV_URL);
-                if (!response.ok) throw new Error('Erreur de chargement');
-
-                const csvText = await response.text();
-                weeklyMenusData = parseCSV(csvText);
-
-                if (weeklyMenusData.length === 0) {
-                    throw new Error('Aucun menu trouvé');
-                }
-
-                renderWeeklyMenus(weeklyMenusData);
-
-            } catch (error) {
-                console.error('Erreur chargement menus:', error);
-                container.innerHTML = getDefaultMenusHTML();
-            }
-        }
-
-        // Override setLanguage to also update weekly menus
+        // Override setLanguage to also update all sections
         const originalSetLanguage = setLanguage;
         setLanguage = function(lang) {
             originalSetLanguage(lang);
-            // Re-render weekly menus in new language if data is loaded
-            if (weeklyMenusData && weeklyMenusData.length > 0) {
-                renderWeeklyMenus(weeklyMenusData);
+            // Re-render all sections in new language if data is loaded
+            if (menuData.menus.length > 0 || menuData.grecques.length > 0 || menuData.regionales.length > 0 || menuData.desserts.length > 0) {
+                renderAllSections();
             }
         };
     </script>
