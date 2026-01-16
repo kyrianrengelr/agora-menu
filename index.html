@@ -443,6 +443,122 @@
         }
 
         /* ============================================
+           WINE LIST STYLES
+           ============================================ */
+        .wine-category {
+            margin-top: 48px;
+            margin-bottom: 32px;
+        }
+
+        .wine-category:first-child {
+            margin-top: 24px;
+        }
+
+        .wine-category-title {
+            font-family: var(--font-body);
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .wine-subcategory-title {
+            font-family: var(--font-body);
+            font-size: 18px;
+            font-weight: 400;
+            color: var(--color-gold);
+            font-style: italic;
+            margin-top: 28px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        /* Wine table for "Vins au verre" with header */
+        .wine-table-header {
+            display: flex;
+            justify-content: flex-end;
+            padding: 8px 0;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--color-line);
+        }
+
+        .wine-table-header span {
+            width: 60px;
+            text-align: center;
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-description);
+            font-style: italic;
+        }
+
+        /* Wine item row */
+        .wine-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .wine-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .wine-item-name {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--color-title);
+        }
+
+        .wine-item-description {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-description);
+            margin-top: 2px;
+        }
+
+        /* Price columns for multi-size wines (vins au verre, mousseux) */
+        .wine-item-prices {
+            display: flex;
+            flex-shrink: 0;
+        }
+
+        .wine-item-prices span {
+            width: 60px;
+            text-align: center;
+            font-family: var(--font-body);
+            font-size: 16px;
+            color: var(--color-title);
+        }
+
+        /* Single price with contenance (bottles) */
+        .wine-item-single-price {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wine-item-contenance {
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--color-description);
+            min-width: 45px;
+            text-align: right;
+        }
+
+        .wine-item-price {
+            font-family: var(--font-body);
+            font-size: 16px;
+            color: var(--color-title);
+            min-width: 40px;
+            text-align: right;
+        }
+
+        /* ============================================
            SCROLL TO TOP BUTTON
            ============================================ */
         .scroll-top {
@@ -616,6 +732,7 @@
             <li><a href="#semaine" data-i18n="nav_semaine">Menus de la Semaine</a></li>
             <li><a href="#desserts" data-i18n="nav_desserts">Desserts Maison</a></li>
             <li><a href="#glaces" data-i18n="nav_glaces">Glaces</a></li>
+            <li><a href="#vins" data-i18n="nav_vins">Carte des Vins</a></li>
         </ul>
     </nav>
 
@@ -693,6 +810,20 @@
             </div>
         </section>
 
+        <div class="section-divider"></div>
+
+        <!-- ========================================
+             CARTE DES VINS
+             ======================================== -->
+        <section id="vins" class="menu-section">
+            <h1 class="section-title" data-i18n="title_vins">Carte des Vins</h1>
+
+            <!-- Contenu chargé dynamiquement -->
+            <div id="vins-container">
+                <p style="text-align: center; color: var(--color-description);">Chargement...</p>
+            </div>
+        </section>
+
     </main>
 
     <!-- Scroll to Top Button -->
@@ -728,11 +859,23 @@
                 // Buttons
                 btn_glaces: "Notre carte complète",
 
-                // Wine subtitles
+                // Wine categories
+                wine_cat_verre: "Les vins au verre",
+                wine_cat_blancs: "Les vins blancs en bouteilles",
+                wine_cat_rouges_suisses: "Les vins rouges suisses en bouteilles",
+                wine_cat_rouges_etrangers: "Les vins rouges étrangers en bouteilles",
+                wine_cat_mousseux: "Mousseux",
+
+                // Wine subtitles (for vins au verre)
                 subtitle_vins_rouges: "Vins Rouges",
                 subtitle_vins_blancs: "Vins Blancs",
                 subtitle_vins_roses: "Vins Rosés",
-                
+
+                // Wine countries (for vins rouges étrangers)
+                wine_country_italie: "Italie",
+                wine_country_espagne: "Espagne",
+                wine_country_france: "France",
+
                 // Subtitles
                 subtitle_entrees: "Entrées",
                 subtitle_plats: "Plats",
@@ -852,11 +995,23 @@
                 // Buttons
                 btn_glaces: "Unsere vollständige Karte",
 
-                // Wine subtitles
+                // Wine categories
+                wine_cat_verre: "Offene Weine",
+                wine_cat_blancs: "Weissweine in Flaschen",
+                wine_cat_rouges_suisses: "Schweizer Rotweine in Flaschen",
+                wine_cat_rouges_etrangers: "Ausländische Rotweine in Flaschen",
+                wine_cat_mousseux: "Schaumweine",
+
+                // Wine subtitles (for vins au verre)
                 subtitle_vins_rouges: "Rotweine",
                 subtitle_vins_blancs: "Weissweine",
                 subtitle_vins_roses: "Roséweine",
-                
+
+                // Wine countries (for vins rouges étrangers)
+                wine_country_italie: "Italien",
+                wine_country_espagne: "Spanien",
+                wine_country_france: "Frankreich",
+
                 // Subtitles
                 subtitle_entrees: "Vorspeisen",
                 subtitle_plats: "Hauptgerichte",
@@ -976,11 +1131,23 @@
                 // Buttons
                 btn_glaces: "Our Full Menu",
 
-                // Wine subtitles
+                // Wine categories
+                wine_cat_verre: "Wines by the Glass",
+                wine_cat_blancs: "White Wines in Bottles",
+                wine_cat_rouges_suisses: "Swiss Red Wines in Bottles",
+                wine_cat_rouges_etrangers: "Foreign Red Wines in Bottles",
+                wine_cat_mousseux: "Sparkling Wines",
+
+                // Wine subtitles (for wines by the glass)
                 subtitle_vins_rouges: "Red Wines",
                 subtitle_vins_blancs: "White Wines",
                 subtitle_vins_roses: "Rosé Wines",
-                
+
+                // Wine countries (for foreign red wines)
+                wine_country_italie: "Italy",
+                wine_country_espagne: "Spain",
+                wine_country_france: "France",
+
                 // Subtitles
                 subtitle_entrees: "Starters",
                 subtitle_plats: "Main Courses",
@@ -1093,7 +1260,7 @@
             if (translations[lang]) {
                 return lang;
             }
-            return 'fr'; // Default to French
+            return 'en'; // Default to English
         }
 
         function setLanguage(lang) {
@@ -1210,7 +1377,8 @@
             grecques: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=1396099787&single=true&output=csv',
             regionales: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=974189437&single=true&output=csv',
             desserts: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=1813335111&single=true&output=csv',
-            config: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=41286548&single=true&output=csv'
+            config: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=41286548&single=true&output=csv',
+            vins: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=1759685871&single=true&output=csv'
         };
 
         // Données globales pour chaque section
@@ -1219,6 +1387,7 @@
             grecques: [],
             regionales: [],
             desserts: [],
+            vins: [],
             config: {}
         };
 
@@ -1387,6 +1556,80 @@
             return config;
         }
 
+        // Parser pour les Vins
+        // Colonnes: Nom_FR, Prix, Actif, Contenance, Catégorie, Type, Provenance, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
+        function parseVins(csvText) {
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 2) return [];
+
+            const items = [];
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length >= 12 && values[0].trim() && isTrue(values[2])) {
+                    items.push({
+                        name_fr: values[0].trim(),
+                        price: values[1].trim(),
+                        contenance: values[3].trim(),
+                        categorie: values[4].trim(),
+                        type: values[5].trim().toLowerCase(),
+                        provenance: values[6].trim(),
+                        desc_fr: values[7].trim(),
+                        name_de: values[8].trim(),
+                        desc_de: values[9].trim(),
+                        name_en: values[10].trim(),
+                        desc_en: values[11].trim()
+                    });
+                }
+            }
+            return items;
+        }
+
+        // Fonction pour normaliser les catégories de vin
+        function normalizeWineCategory(categorie) {
+            const cat = categorie.toLowerCase().trim();
+            if (cat.includes('verre')) return 'verre';
+            if (cat.includes('blancs') || cat.includes('blanc')) return 'blancs';
+            if (cat.includes('rouges suisses') || cat.includes('rouge suisse')) return 'rouges_suisses';
+            if (cat.includes('rouges étrangers') || cat.includes('rouge étranger') || cat.includes('rouges etrangers')) return 'rouges_etrangers';
+            if (cat.includes('mousseux')) return 'mousseux';
+            return cat;
+        }
+
+        // Fonction pour normaliser le type de vin
+        function normalizeWineType(type) {
+            const t = type.toLowerCase().trim();
+            if (t.includes('rouge')) return 'rouge';
+            if (t.includes('blanc')) return 'blanc';
+            if (t.includes('rosé') || t.includes('rose')) return 'rose';
+            return t;
+        }
+
+        // Fonction pour normaliser la provenance
+        function normalizeProvenance(provenance) {
+            const p = provenance.toLowerCase().trim();
+            if (p.includes('italie') || p.includes('italien') || p.includes('italy')) return 'italie';
+            if (p.includes('espagne') || p.includes('spanien') || p.includes('spain')) return 'espagne';
+            if (p.includes('france') || p.includes('frankreich')) return 'france';
+            return provenance;
+        }
+
+        // Fonction pour grouper les vins avec plusieurs contenances (même nom)
+        function groupWinesByName(wines) {
+            const grouped = {};
+            wines.forEach(wine => {
+                const key = wine.name_fr + '|' + wine.desc_fr;
+                if (!grouped[key]) {
+                    grouped[key] = {
+                        ...wine,
+                        prices: [{ contenance: wine.contenance, price: wine.price }]
+                    };
+                } else {
+                    grouped[key].prices.push({ contenance: wine.contenance, price: wine.price });
+                }
+            });
+            return Object.values(grouped);
+        }
+
         // ============================================
         // FONCTIONS DE RENDU HTML
         // ============================================
@@ -1541,6 +1784,192 @@
             container.innerHTML = html;
         }
 
+        // Rendu des Vins
+        function renderVins() {
+            const container = document.getElementById('vins-container');
+            if (!menuData.vins || menuData.vins.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun vin disponible</p>';
+                return;
+            }
+
+            let html = '';
+
+            // Catégoriser les vins
+            const vinsVerre = menuData.vins.filter(v => normalizeWineCategory(v.categorie) === 'verre');
+            const vinsBlancs = menuData.vins.filter(v => normalizeWineCategory(v.categorie) === 'blancs');
+            const vinsRougesSuisses = menuData.vins.filter(v => normalizeWineCategory(v.categorie) === 'rouges_suisses');
+            const vinsRougesEtrangers = menuData.vins.filter(v => normalizeWineCategory(v.categorie) === 'rouges_etrangers');
+            const vinsMousseux = menuData.vins.filter(v => normalizeWineCategory(v.categorie) === 'mousseux');
+
+            // 1. VINS AU VERRE (avec en-têtes de colonnes et sous-catégories par type)
+            if (vinsVerre.length > 0) {
+                html += '<div class="wine-category">';
+                html += `<h2 class="wine-category-title">${translations[currentLang].wine_cat_verre}</h2>`;
+
+                // Trouver les contenances uniques pour les en-têtes
+                const contenances = [...new Set(vinsVerre.map(v => v.contenance))].sort((a, b) => {
+                    const numA = parseInt(a) || 0;
+                    const numB = parseInt(b) || 0;
+                    return numA - numB;
+                });
+
+                // En-têtes des colonnes
+                html += '<div class="wine-table-header">';
+                contenances.forEach(cont => {
+                    html += `<span>${cont}</span>`;
+                });
+                html += '</div>';
+
+                // Grouper par type (blanc, rouge, rosé)
+                const vinsVerreBlancs = vinsVerre.filter(v => normalizeWineType(v.type) === 'blanc');
+                const vinsVerreRouges = vinsVerre.filter(v => normalizeWineType(v.type) === 'rouge');
+                const vinsVerreRoses = vinsVerre.filter(v => normalizeWineType(v.type) === 'rose');
+
+                // Vins blancs au verre
+                if (vinsVerreBlancs.length > 0) {
+                    html += `<h3 class="wine-subcategory-title">${translations[currentLang].subtitle_vins_blancs}</h3>`;
+                    html += renderVinsVerreGroup(groupWinesByName(vinsVerreBlancs), contenances);
+                }
+
+                // Vins rouges au verre
+                if (vinsVerreRouges.length > 0) {
+                    html += `<h3 class="wine-subcategory-title">${translations[currentLang].subtitle_vins_rouges}</h3>`;
+                    html += renderVinsVerreGroup(groupWinesByName(vinsVerreRouges), contenances);
+                }
+
+                // Vins rosés au verre
+                if (vinsVerreRoses.length > 0) {
+                    html += `<h3 class="wine-subcategory-title">${translations[currentLang].subtitle_vins_roses}</h3>`;
+                    html += renderVinsVerreGroup(groupWinesByName(vinsVerreRoses), contenances);
+                }
+
+                html += '</div>';
+            }
+
+            // 2. VINS BLANCS EN BOUTEILLES
+            if (vinsBlancs.length > 0) {
+                html += '<div class="wine-category">';
+                html += `<h2 class="wine-category-title">${translations[currentLang].wine_cat_blancs}</h2>`;
+                html += renderVinsBouteilles(vinsBlancs);
+                html += '</div>';
+            }
+
+            // 3. VINS ROUGES SUISSES EN BOUTEILLES
+            if (vinsRougesSuisses.length > 0) {
+                html += '<div class="wine-category">';
+                html += `<h2 class="wine-category-title">${translations[currentLang].wine_cat_rouges_suisses}</h2>`;
+                html += renderVinsBouteilles(vinsRougesSuisses);
+                html += '</div>';
+            }
+
+            // 4. VINS ROUGES ÉTRANGERS EN BOUTEILLES (avec sous-catégories par pays)
+            if (vinsRougesEtrangers.length > 0) {
+                html += '<div class="wine-category">';
+                html += `<h2 class="wine-category-title">${translations[currentLang].wine_cat_rouges_etrangers}</h2>`;
+
+                // Grouper par provenance
+                const vinsItalie = vinsRougesEtrangers.filter(v => normalizeProvenance(v.provenance) === 'italie');
+                const vinsEspagne = vinsRougesEtrangers.filter(v => normalizeProvenance(v.provenance) === 'espagne');
+                const vinsFrance = vinsRougesEtrangers.filter(v => normalizeProvenance(v.provenance) === 'france');
+
+                if (vinsItalie.length > 0) {
+                    html += `<h3 class="wine-subcategory-title">${translations[currentLang].wine_country_italie}</h3>`;
+                    html += renderVinsBouteilles(vinsItalie);
+                }
+
+                if (vinsEspagne.length > 0) {
+                    html += `<h3 class="wine-subcategory-title">${translations[currentLang].wine_country_espagne}</h3>`;
+                    html += renderVinsBouteilles(vinsEspagne);
+                }
+
+                if (vinsFrance.length > 0) {
+                    html += `<h3 class="wine-subcategory-title">${translations[currentLang].wine_country_france}</h3>`;
+                    html += renderVinsBouteilles(vinsFrance);
+                }
+
+                html += '</div>';
+            }
+
+            // 5. MOUSSEUX (avec regroupement par nom si plusieurs contenances)
+            if (vinsMousseux.length > 0) {
+                html += '<div class="wine-category">';
+                html += `<h2 class="wine-category-title">${translations[currentLang].wine_cat_mousseux}</h2>`;
+
+                // Trouver les contenances uniques pour les mousseux
+                const contenancesMousseux = [...new Set(vinsMousseux.map(v => v.contenance))].sort((a, b) => {
+                    const numA = parseInt(a) || 0;
+                    const numB = parseInt(b) || 0;
+                    return numA - numB;
+                });
+
+                // Si plusieurs contenances différentes, afficher avec en-têtes
+                if (contenancesMousseux.length > 1) {
+                    html += '<div class="wine-table-header">';
+                    contenancesMousseux.forEach(cont => {
+                        html += `<span>${cont}</span>`;
+                    });
+                    html += '</div>';
+                    html += renderVinsVerreGroup(groupWinesByName(vinsMousseux), contenancesMousseux);
+                } else {
+                    html += renderVinsBouteilles(vinsMousseux);
+                }
+
+                html += '</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Rendu pour vins au verre (avec colonnes de prix alignées)
+        function renderVinsVerreGroup(groupedWines, contenances) {
+            let html = '';
+            groupedWines.forEach(wine => {
+                const name = getItemName(wine);
+                const desc = getItemDesc(wine);
+
+                html += '<div class="wine-item">';
+                html += '<div class="wine-item-info">';
+                html += `<div class="wine-item-name">${name}</div>`;
+                if (desc) {
+                    html += `<div class="wine-item-description">${desc}</div>`;
+                }
+                html += '</div>';
+
+                html += '<div class="wine-item-prices">';
+                contenances.forEach(cont => {
+                    const priceObj = wine.prices.find(p => p.contenance === cont);
+                    html += `<span>${priceObj ? priceObj.price : ''}</span>`;
+                });
+                html += '</div>';
+                html += '</div>';
+            });
+            return html;
+        }
+
+        // Rendu pour vins en bouteilles (contenance + prix alignés)
+        function renderVinsBouteilles(wines) {
+            let html = '';
+            wines.forEach(wine => {
+                const name = getItemName(wine);
+                const desc = getItemDesc(wine);
+
+                html += '<div class="wine-item">';
+                html += '<div class="wine-item-info">';
+                html += `<div class="wine-item-name">${name}</div>`;
+                if (desc) {
+                    html += `<div class="wine-item-description">${desc}</div>`;
+                }
+                html += '</div>';
+
+                html += '<div class="wine-item-single-price">';
+                html += `<span class="wine-item-contenance">${wine.contenance}</span>`;
+                html += `<span class="wine-item-price">${wine.price}</span>`;
+                html += '</div>';
+                html += '</div>';
+            });
+            return html;
+        }
+
         // Mise à jour du lien PDF des glaces
         function updateGlacesPdfLink() {
             const pdfLink = document.getElementById('glaces-pdf-link');
@@ -1555,6 +1984,7 @@
             renderGrecques();
             renderRegionales();
             renderDesserts();
+            renderVins();
             updateGlacesPdfLink();
             // Réinitialiser les icônes veggie après le rendu
             setupVeggieIcons();
@@ -1563,11 +1993,12 @@
         // Charger toutes les données
         async function loadAllData() {
             try {
-                const [menusCSV, grecquesCSV, regionalesCSV, dessertsCSV, configCSV] = await Promise.all([
+                const [menusCSV, grecquesCSV, regionalesCSV, dessertsCSV, vinsCSV, configCSV] = await Promise.all([
                     loadSheetData(SHEET_URLS.menus),
                     loadSheetData(SHEET_URLS.grecques),
                     loadSheetData(SHEET_URLS.regionales),
                     loadSheetData(SHEET_URLS.desserts),
+                    loadSheetData(SHEET_URLS.vins).catch(() => ''),
                     loadSheetData(SHEET_URLS.config).catch(() => '')
                 ]);
 
@@ -1575,6 +2006,7 @@
                 menuData.grecques = parseGrecques(grecquesCSV);
                 menuData.regionales = parseRegionales(regionalesCSV);
                 menuData.desserts = parseDesserts(dessertsCSV);
+                menuData.vins = vinsCSV ? parseVins(vinsCSV) : [];
                 menuData.config = configCSV ? parseConfig(configCSV) : {};
 
                 renderAllSections();
@@ -1640,7 +2072,7 @@
         setLanguage = function(lang) {
             originalSetLanguage(lang);
             // Re-render all sections in new language if data is loaded
-            if (menuData.menus.length > 0 || menuData.grecques.length > 0 || menuData.regionales.length > 0 || menuData.desserts.length > 0) {
+            if (menuData.menus.length > 0 || menuData.grecques.length > 0 || menuData.regionales.length > 0 || menuData.desserts.length > 0 || menuData.vins.length > 0) {
                 renderAllSections();
             }
         };
