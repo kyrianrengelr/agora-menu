@@ -1364,10 +1364,11 @@
 
             // Pour les plats, séparer par sous-catégorie
             // Ordre: Vide (en haut), Végétarien, Poisson, Menu enfants
+            // Note: Un plat végétarien + menu enfants va dans Menu enfants uniquement
             const platsVide = plats.filter(item => item.vide && !item.vegetarien && !item.poisson && !item.menuEnfants);
-            const platsVegetarien = plats.filter(item => item.vegetarien && !item.poisson);
+            const platsVegetarien = plats.filter(item => item.vegetarien && !item.poisson && !item.menuEnfants);
             const platsPoisson = plats.filter(item => item.poisson);
-            const platsEnfants = plats.filter(item => item.menuEnfants && !item.vegetarien && !item.poisson && !item.vide);
+            const platsEnfants = plats.filter(item => item.menuEnfants && !item.poisson && !item.vide);
 
             let html = '';
 
