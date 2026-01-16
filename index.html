@@ -10,6 +10,10 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="Logo agora.png">
+    <link rel="apple-touch-icon" href="Logo agora.png">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -401,6 +405,38 @@
         }
 
         /* ============================================
+           GLACES BUTTON
+           ============================================ */
+        .glaces-button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .glaces-button {
+            display: inline-block;
+            padding: 16px 40px;
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--color-title);
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .glaces-button:hover {
+            background: var(--color-accent);
+            color: var(--color-bg);
+        }
+
+        /* ============================================
            SCROLL TO TOP BUTTON
            ============================================ */
         .scroll-top {
@@ -573,6 +609,7 @@
             <li><a href="#regionales" data-i18n="nav_regionales">Spécialités Régionales</a></li>
             <li><a href="#semaine" data-i18n="nav_semaine">Menus de la Semaine</a></li>
             <li><a href="#desserts" data-i18n="nav_desserts">Desserts Maison</a></li>
+            <li><a href="#glaces" data-i18n="nav_glaces">Glaces</a></li>
         </ul>
     </nav>
 
@@ -634,6 +671,22 @@
             </div>
         </section>
 
+        <div class="section-divider"></div>
+
+        <!-- ========================================
+             GLACES
+             ======================================== -->
+        <section id="glaces" class="menu-section">
+            <h1 class="section-title" data-i18n="title_glaces">Glaces</h1>
+
+            <!-- Bouton vers la carte des glaces PDF -->
+            <div id="glaces-container" class="glaces-button-container">
+                <a id="glaces-pdf-link" href="#" target="_blank" class="glaces-button" data-i18n="btn_glaces">
+                    Notre carte complète
+                </a>
+            </div>
+        </section>
+
     </main>
 
     <!-- Scroll to Top Button -->
@@ -655,12 +708,24 @@
                 nav_regionales: "Spécialités Régionales",
                 nav_semaine: "Menus de la Semaine",
                 nav_desserts: "Desserts Maison",
-                
+                nav_glaces: "Glaces",
+                nav_vins: "Carte des Vins",
+
                 // Section Titles
                 title_grecques: "Spécialités Grecques",
                 title_regionales: "Nos Spécialités Régionales",
                 title_semaine: "Menus de la Semaine",
                 title_desserts: "Desserts Maison",
+                title_glaces: "Glaces",
+                title_vins: "Carte des Vins",
+
+                // Buttons
+                btn_glaces: "Notre carte complète",
+
+                // Wine subtitles
+                subtitle_vins_rouges: "Vins Rouges",
+                subtitle_vins_blancs: "Vins Blancs",
+                subtitle_vins_roses: "Vins Rosés",
                 
                 // Subtitles
                 subtitle_entrees: "Entrées",
@@ -767,12 +832,24 @@
                 nav_regionales: "Regionale Spezialitäten",
                 nav_semaine: "Wochenmenüs",
                 nav_desserts: "Hausgemachte Desserts",
-                
+                nav_glaces: "Eis",
+                nav_vins: "Weinkarte",
+
                 // Section Titles
                 title_grecques: "Griechische Spezialitäten",
                 title_regionales: "Unsere Regionalen Spezialitäten",
                 title_semaine: "Wochenmenüs",
                 title_desserts: "Hausgemachte Desserts",
+                title_glaces: "Eis",
+                title_vins: "Weinkarte",
+
+                // Buttons
+                btn_glaces: "Unsere vollständige Karte",
+
+                // Wine subtitles
+                subtitle_vins_rouges: "Rotweine",
+                subtitle_vins_blancs: "Weissweine",
+                subtitle_vins_roses: "Roséweine",
                 
                 // Subtitles
                 subtitle_entrees: "Vorspeisen",
@@ -879,12 +956,24 @@
                 nav_regionales: "Regional Specialties",
                 nav_semaine: "Weekly Menus",
                 nav_desserts: "Homemade Desserts",
-                
+                nav_glaces: "Ice Cream",
+                nav_vins: "Wine List",
+
                 // Section Titles
                 title_grecques: "Greek Specialties",
                 title_regionales: "Our Regional Specialties",
                 title_semaine: "Weekly Menus",
                 title_desserts: "Homemade Desserts",
+                title_glaces: "Ice Cream",
+                title_vins: "Wine List",
+
+                // Buttons
+                btn_glaces: "Our Full Menu",
+
+                // Wine subtitles
+                subtitle_vins_rouges: "Red Wines",
+                subtitle_vins_blancs: "White Wines",
+                subtitle_vins_roses: "Rosé Wines",
                 
                 // Subtitles
                 subtitle_entrees: "Starters",
@@ -1114,7 +1203,8 @@
             menus: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=0&single=true&output=csv',
             grecques: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=1396099787&single=true&output=csv',
             regionales: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=974189437&single=true&output=csv',
-            desserts: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=1813335111&single=true&output=csv'
+            desserts: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=1813335111&single=true&output=csv',
+            config: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTcCcnEZ9sq8GhazJHHCJc1zTkaPbOXa5EGYvpGkleUiktuScOC5oIfIfJYf9bXCM6RxOj1jcbVyfaM/pub?gid=41286548&single=true&output=csv'
         };
 
         // Données globales pour chaque section
@@ -1122,7 +1212,8 @@
             menus: [],
             grecques: [],
             regionales: [],
-            desserts: []
+            desserts: [],
+            config: {}
         };
 
         // ============================================
@@ -1272,6 +1363,22 @@
                 }
             }
             return items;
+        }
+
+        // Parser pour la Config (lien PDF glaces, etc.)
+        // Colonnes: Clé, Valeur
+        function parseConfig(csvText) {
+            const lines = csvText.trim().split('\n');
+            if (lines.length < 2) return {};
+
+            const config = {};
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length >= 2 && values[0].trim()) {
+                    config[values[0].trim()] = values[1].trim();
+                }
+            }
+            return config;
         }
 
         // ============================================
@@ -1428,12 +1535,21 @@
             container.innerHTML = html;
         }
 
+        // Mise à jour du lien PDF des glaces
+        function updateGlacesPdfLink() {
+            const pdfLink = document.getElementById('glaces-pdf-link');
+            if (menuData.config && menuData.config.glaces_pdf_url) {
+                pdfLink.href = menuData.config.glaces_pdf_url;
+            }
+        }
+
         // Rendu de toutes les sections
         function renderAllSections() {
             renderMenus();
             renderGrecques();
             renderRegionales();
             renderDesserts();
+            updateGlacesPdfLink();
             // Réinitialiser les icônes veggie après le rendu
             setupVeggieIcons();
         }
@@ -1441,17 +1557,19 @@
         // Charger toutes les données
         async function loadAllData() {
             try {
-                const [menusCSV, grecquesCSV, regionalesCSV, dessertsCSV] = await Promise.all([
+                const [menusCSV, grecquesCSV, regionalesCSV, dessertsCSV, configCSV] = await Promise.all([
                     loadSheetData(SHEET_URLS.menus),
                     loadSheetData(SHEET_URLS.grecques),
                     loadSheetData(SHEET_URLS.regionales),
-                    loadSheetData(SHEET_URLS.desserts)
+                    loadSheetData(SHEET_URLS.desserts),
+                    loadSheetData(SHEET_URLS.config).catch(() => '')
                 ]);
 
                 menuData.menus = parseMenus(menusCSV);
                 menuData.grecques = parseGrecques(grecquesCSV);
                 menuData.regionales = parseRegionales(regionalesCSV);
                 menuData.desserts = parseDesserts(dessertsCSV);
+                menuData.config = configCSV ? parseConfig(configCSV) : {};
 
                 renderAllSections();
 
