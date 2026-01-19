@@ -191,6 +191,8 @@
         .nav-overlay.active .nav-menu li:nth-child(2) { transition-delay: 0.2s; }
         .nav-overlay.active .nav-menu li:nth-child(3) { transition-delay: 0.3s; }
         .nav-overlay.active .nav-menu li:nth-child(4) { transition-delay: 0.4s; }
+        .nav-overlay.active .nav-menu li:nth-child(5) { transition-delay: 0.5s; }
+        .nav-overlay.active .nav-menu li:nth-child(6) { transition-delay: 0.6s; }
 
         .nav-menu a {
             font-family: var(--font-body);
@@ -2040,7 +2042,20 @@
             document.body.appendChild(veggieTooltip);
         }
 
+        let veggieTooltipTimeout = null;
+
+        function hideVeggieTooltip() {
+            if (veggieTooltip) {
+                veggieTooltip.classList.remove('visible');
+            }
+            if (veggieTooltipTimeout) {
+                clearTimeout(veggieTooltipTimeout);
+                veggieTooltipTimeout = null;
+            }
+        }
+
         function showVeggieTooltip(e) {
+            e.stopPropagation();
             const icon = e.target;
             const rect = icon.getBoundingClientRect();
 
@@ -2048,11 +2063,24 @@
             veggieTooltip.style.top = rect.top - veggieTooltip.offsetHeight - 8 + 'px';
             veggieTooltip.classList.add('visible');
 
+            // Clear any existing timeout
+            if (veggieTooltipTimeout) {
+                clearTimeout(veggieTooltipTimeout);
+            }
+
             // Hide after 2 seconds
-            setTimeout(() => {
-                veggieTooltip.classList.remove('visible');
+            veggieTooltipTimeout = setTimeout(() => {
+                hideVeggieTooltip();
             }, 2000);
         }
+
+        // Hide tooltip on scroll or click elsewhere
+        document.addEventListener('scroll', hideVeggieTooltip, true);
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('veggie-icon')) {
+                hideVeggieTooltip();
+            }
+        });
 
         function setupVeggieIcons() {
             const veggieIcons = document.querySelectorAll('.veggie-icon');
