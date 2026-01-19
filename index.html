@@ -316,7 +316,8 @@
         .menu-item-header {
             display: flex;
             align-items: baseline;
-            gap: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
             margin-bottom: 6px;
         }
 
@@ -325,7 +326,8 @@
             font-size: 22px;
             font-weight: 500;
             color: var(--color-title);
-            flex-shrink: 0;
+            flex-shrink: 1;
+            min-width: 0;
         }
 
         .dish-line {
@@ -508,14 +510,14 @@
 
         .wine-item-name {
             font-family: var(--font-body);
-            font-size: 16px;
+            font-size: 20px;
             font-weight: 400;
             color: var(--color-title);
         }
 
         .wine-item-description {
             font-family: var(--font-body);
-            font-size: 14px;
+            font-size: 16px;
             color: var(--color-description);
             margin-top: 2px;
         }
