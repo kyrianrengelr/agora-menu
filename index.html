@@ -315,10 +315,18 @@
 
         .menu-item-header {
             display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .dish-name-wrapper {
+            flex: 1;
+            min-width: 0;
+            display: flex;
             align-items: baseline;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 6px;
         }
 
         .dish-name {
@@ -326,8 +334,6 @@
             font-size: 22px;
             font-weight: 500;
             color: var(--color-title);
-            flex-shrink: 1;
-            min-width: 0;
         }
 
         .dish-line {
@@ -335,10 +341,12 @@
             height: 1px;
             background: linear-gradient(to right, var(--color-line) 0%, transparent 100%);
             margin-top: 10px;
+            min-width: 20px;
         }
 
         .dish-price {
             font-family: var(--font-body);
+            flex-shrink: 0;
             font-size: 16px;
             font-weight: 400;
             color: var(--color-title);
@@ -1655,9 +1663,11 @@
             return `
                 <div class="menu-item${isWeekly ? ' weekly-item' : ''}">
                     <div class="menu-item-header">
-                        <span class="dish-name">${name}</span>
-                        ${veggieIcon}
-                        <span class="dish-line"></span>
+                        <div class="dish-name-wrapper">
+                            <span class="dish-name">${name}</span>
+                            ${veggieIcon}
+                            <span class="dish-line"></span>
+                        </div>
                         <span class="dish-price">${item.price}</span>
                     </div>
                     <p class="dish-description">${desc}</p>
