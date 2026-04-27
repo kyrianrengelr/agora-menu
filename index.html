@@ -1266,18 +1266,26 @@
         let currentLang = 'fr';
 
         function detectLanguage() {
-            const browserLang = navigator.language || navigator.userLanguage;
-            const lang = browserLang.substring(0, 2).toLowerCase();
-            
-            if (translations[lang]) {
-                return lang;
+            // Lit uniquement la langue primaire du navigateur.
+            // Si ce n'est pas FR/DE/EN -> anglais par défaut.
+            const browserLang = navigator.language || navigator.userLanguage || '';
+            const code = browserLang.substring(0, 2).toLowerCase();
+            if (code === 'fr' || code === 'de' || code === 'en') {
+                return code;
             }
-            return 'en'; // Default to English
+            return 'en';
         }
 
+        // Aucun stockage : la langue vit uniquement en mémoire (currentLang).
+        // Un reload de la page = re-détection depuis le navigateur.
         function setLanguage(lang) {
+            // Garde-fou : si la langue n'existe pas, on retombe sur la détection
+            if (!translations[lang]) {
+                lang = detectLanguage();
+            }
+
             currentLang = lang;
-            
+
             // Update all translatable elements
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
@@ -1289,7 +1297,7 @@
                     }
                 }
             });
-            
+
             // Update active language button
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -1297,12 +1305,17 @@
                     btn.classList.add('active');
                 }
             });
-            
+
             // Update HTML lang attribute
             document.documentElement.lang = lang;
-            
-            // Store preference
-            localStorage.setItem('preferred-language', lang);
+
+            // Re-rendre les sections dynamiques dans la nouvelle langue
+            // si au moins une section a été chargée
+            const hasData = ['menus', 'grecques', 'regionales', 'desserts', 'vins']
+                .some(k => Array.isArray(menuData[k]) && menuData[k].length > 0);
+            if (hasData) {
+                renderAllSections();
+            }
         }
 
         // ============================================
@@ -1403,27 +1416,87 @@
             config: {}
         };
 
+        // Erreurs de chargement par section (pour afficher un message UX)
+        let loadErrors = {
+            menus: false,
+            grecques: false,
+            regionales: false,
+            desserts: false,
+            vins: false,
+            config: false
+        };
+
         // ============================================
         // FONCTIONS DE PARSING CSV
         // ============================================
-        function parseCSVLine(line) {
-            const result = [];
+        // Parseur CSV complet : gère les champs entre guillemets contenant
+        // des virgules, des retours à la ligne (LF/CRLF) et des guillemets
+        // échappés ("" -> "). Retourne un tableau de lignes (chacune étant
+        // un tableau de cellules).
+        function parseCSV(csvText) {
+            // Enlever le BOM UTF-8 éventuel
+            if (csvText.charCodeAt(0) === 0xFEFF) {
+                csvText = csvText.slice(1);
+            }
+
+            const rows = [];
+            let row = [];
             let current = '';
             let inQuotes = false;
+            let i = 0;
+            const len = csvText.length;
 
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    result.push(current);
-                    current = '';
+            while (i < len) {
+                const char = csvText[i];
+
+                if (inQuotes) {
+                    if (char === '"') {
+                        if (csvText[i + 1] === '"') {
+                            current += '"';
+                            i += 2;
+                            continue;
+                        }
+                        inQuotes = false;
+                        i++;
+                    } else {
+                        current += char;
+                        i++;
+                    }
                 } else {
-                    current += char;
+                    if (char === '"') {
+                        inQuotes = true;
+                        i++;
+                    } else if (char === ',') {
+                        row.push(current);
+                        current = '';
+                        i++;
+                    } else if (char === '\r' && csvText[i + 1] === '\n') {
+                        row.push(current);
+                        rows.push(row);
+                        row = [];
+                        current = '';
+                        i += 2;
+                    } else if (char === '\n' || char === '\r') {
+                        row.push(current);
+                        rows.push(row);
+                        row = [];
+                        current = '';
+                        i++;
+                    } else {
+                        current += char;
+                        i++;
+                    }
                 }
             }
-            result.push(current);
-            return result;
+
+            // Dernière ligne sans retour à la ligne final
+            if (current !== '' || row.length > 0) {
+                row.push(current);
+                rows.push(row);
+            }
+
+            // Filtrer les lignes entièrement vides
+            return rows.filter(r => r.some(cell => cell.trim() !== ''));
         }
 
         function isTrue(value) {
@@ -1451,12 +1524,12 @@
         // Parser pour les Menus du jour
         // Colonnes: Nom_FR, Prix, Actif, Végétarien, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
         function parseMenus(csvText) {
-            const lines = csvText.trim().split('\n');
-            if (lines.length < 2) return [];
+            const rows = parseCSV(csvText);
+            if (rows.length < 2) return [];
 
             const items = [];
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i];
                 if (values.length >= 9 && values[0].trim() && isTrue(values[2])) {
                     items.push({
                         name_fr: values[0].trim(),
@@ -1476,12 +1549,12 @@
         // Parser pour les Grecques
         // Colonnes: Nom_FR, Prix, Actif, Type, Végétarien, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
         function parseGrecques(csvText) {
-            const lines = csvText.trim().split('\n');
-            if (lines.length < 2) return [];
+            const rows = parseCSV(csvText);
+            if (rows.length < 2) return [];
 
             const items = [];
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i];
                 if (values.length >= 10 && values[0].trim() && isTrue(values[2])) {
                     items.push({
                         name_fr: values[0].trim(),
@@ -1502,12 +1575,12 @@
         // Parser pour les Régionales
         // Colonnes: Nom_FR, Prix, Actif, Type, Végétarien, Présenter tout en haut des plats régionales, Poisson, Menu enfants, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
         function parseRegionales(csvText) {
-            const lines = csvText.trim().split('\n');
-            if (lines.length < 2) return [];
+            const rows = parseCSV(csvText);
+            if (rows.length < 2) return [];
 
             const items = [];
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i];
                 if (values.length >= 13 && values[0].trim() && isTrue(values[2])) {
                     items.push({
                         name_fr: values[0].trim(),
@@ -1531,12 +1604,12 @@
         // Parser pour les Desserts
         // Colonnes: Nom_FR, Prix, Actif, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
         function parseDesserts(csvText) {
-            const lines = csvText.trim().split('\n');
-            if (lines.length < 2) return [];
+            const rows = parseCSV(csvText);
+            if (rows.length < 2) return [];
 
             const items = [];
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i];
                 if (values.length >= 8 && values[0].trim() && isTrue(values[2])) {
                     items.push({
                         name_fr: values[0].trim(),
@@ -1555,12 +1628,12 @@
         // Parser pour la Config (lien PDF glaces, etc.)
         // Colonnes: Clé, Valeur
         function parseConfig(csvText) {
-            const lines = csvText.trim().split('\n');
-            if (lines.length < 2) return {};
+            const rows = parseCSV(csvText);
+            if (rows.length < 2) return {};
 
             const config = {};
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i];
                 if (values.length >= 2 && values[0].trim()) {
                     config[values[0].trim()] = values[1].trim();
                 }
@@ -1571,12 +1644,12 @@
         // Parser pour les Vins
         // Colonnes: Nom_FR, Prix, Actif, Contenance, Catégorie, Type, Provenance, Description_FR, Nom_Allemand, Description_Allemand, Nom_Anglais, Description_Anglais
         function parseVins(csvText) {
-            const lines = csvText.trim().split('\n');
-            if (lines.length < 2) return [];
+            const rows = parseCSV(csvText);
+            if (rows.length < 2) return [];
 
             const items = [];
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i];
                 if (values.length >= 12 && values[0].trim() && isTrue(values[2])) {
                     items.push({
                         name_fr: values[0].trim(),
@@ -1680,6 +1753,10 @@
         // Rendu des Menus du jour
         function renderMenus() {
             const container = document.getElementById('weekly-menu-container');
+            if (loadErrors.menus) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Impossible de charger les menus.</p>';
+                return;
+            }
             if (!menuData.menus || menuData.menus.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun menu disponible</p>';
                 return;
@@ -1695,6 +1772,10 @@
         // Rendu des Grecques
         function renderGrecques() {
             const container = document.getElementById('grecques-container');
+            if (loadErrors.grecques) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Impossible de charger les plats.</p>';
+                return;
+            }
             if (!menuData.grecques || menuData.grecques.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun plat disponible</p>';
                 return;
@@ -1723,6 +1804,10 @@
         // Rendu des Régionales
         function renderRegionales() {
             const container = document.getElementById('regionales-container');
+            if (loadErrors.regionales) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Impossible de charger les plats.</p>';
+                return;
+            }
             if (!menuData.regionales || menuData.regionales.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun plat disponible</p>';
                 return;
@@ -1786,6 +1871,10 @@
         // Rendu des Desserts
         function renderDesserts() {
             const container = document.getElementById('desserts-container');
+            if (loadErrors.desserts) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Impossible de charger les desserts.</p>';
+                return;
+            }
             if (!menuData.desserts || menuData.desserts.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun dessert disponible</p>';
                 return;
@@ -1801,6 +1890,10 @@
         // Rendu des Vins
         function renderVins() {
             const container = document.getElementById('vins-container');
+            if (loadErrors.vins) {
+                container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Impossible de charger les vins.</p>';
+                return;
+            }
             if (!menuData.vins || menuData.vins.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: var(--color-description);">Aucun vin disponible</p>';
                 return;
@@ -1822,8 +1915,8 @@
 
                 // Trouver les contenances uniques pour les en-têtes
                 const contenances = [...new Set(vinsVerre.map(v => v.contenance))].sort((a, b) => {
-                    const numA = parseInt(a) || 0;
-                    const numB = parseInt(b) || 0;
+                    const numA = parseFloat(a) || 0;
+                    const numB = parseFloat(b) || 0;
                     return numA - numB;
                 });
 
@@ -1911,8 +2004,8 @@
 
                 // Trouver les contenances uniques pour les mousseux
                 const contenancesMousseux = [...new Set(vinsMousseux.map(v => v.contenance))].sort((a, b) => {
-                    const numA = parseInt(a) || 0;
-                    const numB = parseInt(b) || 0;
+                    const numA = parseFloat(a) || 0;
+                    const numB = parseFloat(b) || 0;
                     return numA - numB;
                 });
 
@@ -2004,30 +2097,35 @@
             setupVeggieIcons();
         }
 
-        // Charger toutes les données
+        // Charger toutes les données — chaque section échoue indépendamment,
+        // pour qu'une seule erreur réseau ne casse pas tout le rendu.
         async function loadAllData() {
-            try {
-                const [menusCSV, grecquesCSV, regionalesCSV, dessertsCSV, vinsCSV, configCSV] = await Promise.all([
-                    loadSheetData(SHEET_URLS.menus),
-                    loadSheetData(SHEET_URLS.grecques),
-                    loadSheetData(SHEET_URLS.regionales),
-                    loadSheetData(SHEET_URLS.desserts),
-                    loadSheetData(SHEET_URLS.vins).catch(() => ''),
-                    loadSheetData(SHEET_URLS.config).catch(() => '')
-                ]);
+            const fetchOrNull = (url) => loadSheetData(url).catch(() => null);
 
-                menuData.menus = parseMenus(menusCSV);
-                menuData.grecques = parseGrecques(grecquesCSV);
-                menuData.regionales = parseRegionales(regionalesCSV);
-                menuData.desserts = parseDesserts(dessertsCSV);
-                menuData.vins = vinsCSV ? parseVins(vinsCSV) : [];
-                menuData.config = configCSV ? parseConfig(configCSV) : {};
+            const [menusCSV, grecquesCSV, regionalesCSV, dessertsCSV, vinsCSV, configCSV] = await Promise.all([
+                fetchOrNull(SHEET_URLS.menus),
+                fetchOrNull(SHEET_URLS.grecques),
+                fetchOrNull(SHEET_URLS.regionales),
+                fetchOrNull(SHEET_URLS.desserts),
+                fetchOrNull(SHEET_URLS.vins),
+                fetchOrNull(SHEET_URLS.config)
+            ]);
 
-                renderAllSections();
+            loadErrors.menus = menusCSV === null;
+            loadErrors.grecques = grecquesCSV === null;
+            loadErrors.regionales = regionalesCSV === null;
+            loadErrors.desserts = dessertsCSV === null;
+            loadErrors.vins = vinsCSV === null;
+            loadErrors.config = configCSV === null;
 
-            } catch (error) {
-                console.error('Erreur lors du chargement des données:', error);
-            }
+            menuData.menus = menusCSV ? parseMenus(menusCSV) : [];
+            menuData.grecques = grecquesCSV ? parseGrecques(grecquesCSV) : [];
+            menuData.regionales = regionalesCSV ? parseRegionales(regionalesCSV) : [];
+            menuData.desserts = dessertsCSV ? parseDesserts(dessertsCSV) : [];
+            menuData.vins = vinsCSV ? parseVins(vinsCSV) : [];
+            menuData.config = configCSV ? parseConfig(configCSV) : {};
+
+            renderAllSections();
         }
 
         // ============================================
@@ -2095,10 +2193,11 @@
         // INITIALIZATION
         // ============================================
         document.addEventListener('DOMContentLoaded', async () => {
-            // Check for stored preference first, then detect
-            const storedLang = localStorage.getItem('preferred-language');
-            const initialLang = storedLang || detectLanguage();
-            setLanguage(initialLang);
+            // Nettoyage de l'ancienne valeur stockée par les versions précédentes.
+            // À chaque chargement on repart de la langue actuelle du navigateur.
+            try { localStorage.removeItem('preferred-language'); } catch (_) {}
+
+            setLanguage(detectLanguage());
 
             // Setup veggie tooltip (icons will be set up after loading)
             createVeggieTooltip();
@@ -2106,16 +2205,6 @@
             // Load all data from Google Sheets
             await loadAllData();
         });
-
-        // Override setLanguage to also update all sections
-        const originalSetLanguage = setLanguage;
-        setLanguage = function(lang) {
-            originalSetLanguage(lang);
-            // Re-render all sections in new language if data is loaded
-            if (menuData.menus.length > 0 || menuData.grecques.length > 0 || menuData.regionales.length > 0 || menuData.desserts.length > 0 || menuData.vins.length > 0) {
-                renderAllSections();
-            }
-        };
     </script>
 
 </body>
